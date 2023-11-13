@@ -12,4 +12,33 @@ public abstract class JogoDados implements Estatistica{
             dados[i] = new Dado();
         }
     }
+
+    public void rolarDados(){
+        for(int i=0; i<dados.length; i++){
+            dados[i].roll();
+        }
+    }
+
+    public void imprimirDados(){
+        for(int i=0; i<dados.length; i++){
+            System.out.print(dados[i].getSideUp());
+            if(i != 4)
+                System.out.print("-");
+        }
+    }
+
+    public int valorDado(int i){
+        return dados[i].getSideUp();
+    }
+
+    //Nao eh ctz ainda, pq n ta somando nada 
+    public int[] somarFacesSorteadas(Dado[] dados){
+        int[] soma = new int[5];
+
+        for(int i=0; i<dados.length; i++){
+            soma[i] += dados[i].getSideUp();
+        }
+
+        return soma;
+    }
 }

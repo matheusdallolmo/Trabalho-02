@@ -30,7 +30,6 @@ public class Campeonato {
                 teclado.nextLine();
                 if(tipoJogador != 'h' && tipoJogador != 'H' && tipoJogador != 'm' && tipoJogador != 'M')
                     System.out.println("Tipo de jogador incorreto, digite a opcao novamente (H,M) ou (h,m)\n");
-
             }while(tipoJogador != 'h' && tipoJogador != 'H' && tipoJogador != 'm' && tipoJogador != 'M'); //Do while para que a pessoa selecione apenas opcoes corretas H ou M (tanto maiusculo quanto minusculo)
 
             // Iniciar o jogador de acordo com seu tipo
@@ -58,6 +57,7 @@ public class Campeonato {
             System.out.println(jogadores[i - 1].getNome());
         }
 
+        // Solicitar qual jogador deve ser removido
         do{
             System.out.print("Indique o nome do jogador a ser removido: ");
             remover = teclado.nextLine();
@@ -76,8 +76,10 @@ public class Campeonato {
             else
                 jogadores[i] = jogadores[i + 1];
         }
+
         // Ajuste do tamanho do vetor de jogadores
         quantJog--; 
+
         // Limpando buffer para que apos a remocao seja possivel a implementacao de outro jogador sem erros
         teclado.nextLine(); 
     }
@@ -104,31 +106,29 @@ public class Campeonato {
 
     //Funcao para gravar em arquivo
     public void gravarEmArquivo(){ 
-        try {
+        try{
             FileOutputStream fout = new FileOutputStream(arquivo);
             ObjectOutputStream oos = new ObjectOutputStream(fout);
-            // gravando o vetor de pessoas no arquivo
+
+            // Gravando o vetor de pessoas no arquivo
             oos.writeObject(jogadores);
             oos.flush();
             oos.close();
             fout.close();
 
             System.out.println("Arquivo gravado com sucesso!");
-        } catch (Exception ex) {
-            System.err.println("erro: " + ex.toString());
+        }catch(Exception ex){
+            System.err.println("erro: "+ex.toString());
         }
     }
 
     //Funcao para ler do arquivo
     public void lerDoArquivo(){ 
-        try {
+        try{
             FileInputStream fin = new FileInputStream(arquivo);
             ObjectInputStream oin = new ObjectInputStream(fin);
-            /*
-            * Lendo os objetos de um arquivo e fazendo a
-            * coercao de tipos
-            */
-
+          
+            // Ler os objetos do arquivo e fazer a coercao de tipos
             Jogador[] jogadoresArq = (Jogador[]) oin.readObject();
             oin.close();
             fin.close();
@@ -145,9 +145,8 @@ public class Campeonato {
             // Informar que o arquivo foi lido com sucesso
             System.out.println("Arquivo lido com sucesso!\n");
 
-            } catch (Exception ex) {
-                System.err.println("erro: " + ex.toString());
-            }
+        }catch (Exception ex){
+            System.err.println("erro: " + ex.toString());
+        }
     }
-
 }

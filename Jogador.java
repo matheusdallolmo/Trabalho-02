@@ -5,6 +5,14 @@ public abstract class Jogador implements Serializable{
     private JogoDados[] jogo = new JogoDados[10];
 
     public Jogador(){
-        nome = " ";
+        this.nome = " ";
+    }
+    
+    public Jogador(String nome){
+        this.nome = nome;
+    }
+
+    public String getNome(){
+        return nome;
     }
 }

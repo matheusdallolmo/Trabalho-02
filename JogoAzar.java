@@ -3,16 +3,16 @@ public class JogoAzar extends JogoDados{
     private Dado[] dados = new Dado[2];
     private int soma = 0;
 
-    public JogoAzar(){
-        valorAposta = 0;
+    public JogoAzar(float aposta){
+        this.valorAposta = aposta;
         for(int i=0; i<2; i++)
             dados[i] = new Dado();
     }
 
-    public void executarRegrasJogo(float valorAposta){
+    public void executarRegrasJogo(){
         int num = 0;
 
-        System.out.println("Primeiro lançamento: ");
+        System.out.println("Primeiro lancamento: ");
         for(int i=0; i<2; i++)
             rolarDados();
 

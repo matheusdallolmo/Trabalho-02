@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import java.io.File;
 
-public class Campeonato {
+public class Campeonato{
     private Scanner teclado = new Scanner(System.in);
     private File arquivo = new File("JogoDeApostas.dat");
     private Jogador[] jogadores = new Jogador[10];
@@ -45,11 +45,10 @@ public class Campeonato {
                 teclado.nextLine();
 
                 jogadores[quantJog] = new Humano(nome, cpf, agencia, conta, numeroBanco);
+            }else{
+                jogadores[quantJog] = new Maquina(nome);
             }
                 
-            else
-                jogadores[quantJog] = new Maquina(nome);
-
             quantJog++;
             System.out.println("Jogador "+nome+" adicionado com sucesso!\n");
             
@@ -100,38 +99,49 @@ public class Campeonato {
 
     // Funcao para executar rodada(s) de aposta(s)
     public void iniciarJogo(){
-        for(i = 0; i<quantJog; i++){
-            int opcao = 0;
-            float valorAposta = 0;
-            System.out.println("Qual jogo deseja jogar? [1 -> Jogo de Azar ou 2 -> Jogo de General]");
-            do {
-                opcao = teclado.nextInt();
-                if(opcao != 1 && opcao != 2)
-                    System.out.println("Opcao invalida, digite novamente (1 ou 2)\n");
-            } while (opcao != 1 && opcao != 2);
+        int opcao = 0;
+        float valorAposta = 0;
 
-            System.out.println("Quanto deseja apostar? Seu saldo: " + jogadores[i].getSaldo());
-            do {
-                valorAposta = teclado.nextFloat();
-                
-                if(valorAposta > jogadores[i].getSaldo()) //verificar se o valor da aposta eh maior que o saldo do jogador
-                    System.out.println("Valor de aposta maior que o saldo, digite um saldo valido!\n");
+        // For para as 10 rodadas
+        for(i = 0; i < 10; i++){
+            // Informar os jogadores sempre que uma rodada comecar
+            System.out.println("Iniciando a rodada "+(i+1)+"!\n");
+            // For para cada jogador incluido no jogo
+            for(int r = 0; r < quantJog; r++){
+                // Separar entre jogadores Humanos e Maquinas
+                if(jogadores[r] instanceof Humano){
+                    // Perguntar e validar em qual jogo o jogador quer apostar
+                    System.out.println("Qual tipo de jogo voce deseja apostar? [1 -> Jogo de Azar ou 2 -> Jogo de General]");
+                    do{
+                        opcao = teclado.nextInt();
+                        if(opcao != 1 && opcao != 2)
+                            System.out.println("Opcao invalida, digite novamente! (1 ou 2)\n");
+                    }while(opcao != 1 && opcao != 2);
+                    
+                    // Perguntar e validar quanto o jogador deseja apostar
+                    System.out.println("Quanto deseja apostar? Seu saldo: " + jogadores[i].getSaldo());
+                    do{
+                        valorAposta = teclado.nextFloat();
+                        
+                        // Verificar se o valor da aposta eh maior que o saldo do jogador
+                        if(valorAposta > jogadores[i].getSaldo()) 
+                            System.out.println("Valor de aposta maior que o saldo, digite um saldo valido!\n");
+                        // Verificar se o valor da aposta eh menor ou igual a zero
+                        else if (valorAposta <= 0) 
+                            System.out.println("Valor de aposta invalido, digite um valor valido!\n");
+                        else
+                            jogadores[i].setSaldo(jogadores[i].getSaldo() - valorAposta); // Atualizar o saldo do jogador
+                    }while(valorAposta > jogadores[i].getSaldo() || valorAposta <= 0);
 
-                else if (valorAposta <= 0) //verificar se o valor da aposta eh menor ou igual a zero
-                    System.out.println("Valor de aposta invalido, digite um valor valido!\n");
-                else
-                    jogadores[i].setSaldo(jogadores[i].getSaldo() - valorAposta); //atualizar o saldo do jogador
+                    if(opcao == 1){
+                        jogadores[r].iniciarJogoAzar(valorAposta, i);
+                    }else{
+                        jogadores[r].iniciarJogoGeneral(valorAposta, i);
+                    }
+                // Realizar a logica para a aposta da Maquina
+                }else{
 
-            } while (valorAposta > jogadores[i].getSaldo() || valorAposta <= 0);
-
-            if(opcao == 1){
-                JogoAzar jogo = new JogoAzar();
-                jogo.executarRegrasJogo(valorAposta);
-                jogadores[i].setSaldo(jogadores[i].getSaldo() + jogo.getValorAposta());
-            }
-            else{
-                JogoGeneral jogo = new JogoGeneral();
-                
+                }
             }
         }
     }

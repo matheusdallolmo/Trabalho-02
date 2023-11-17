@@ -19,23 +19,4 @@ public class Humano extends Jogador implements JogarComoHumano{
         this.conta = conta;
         this.numeroBanco = numeroBanco;
     }
-
-    public int escolherJogo(){ //tem que achar o lugar certo ainda
-        int opcao = 0;
-
-        System.out.println("Escolha o jogo: ");
-        System.out.println("1 - Jogo de Azar");
-        System.out.println("2 - Jogo de General");
-
-        do{
-            if(opcao != 1 && opcao != 2)
-                System.out.println("Opcao invalida, digite novamente (1 ou 2)\n");
-        }while(opcao != 1 && opcao != 2);
-
-        return opcao;
-    }
-
-    public void escolherJogada(){
-
-    }
 }

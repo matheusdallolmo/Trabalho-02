@@ -41,4 +41,6 @@ public abstract class JogoDados implements Estatistica{
 
         return soma;
     }
+
+    public abstract void executarRegrasJogo();
 }

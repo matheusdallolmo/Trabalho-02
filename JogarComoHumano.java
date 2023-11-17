@@ -1,4 +1,4 @@
 public interface JogarComoHumano {
-    public int escolherJogo();
-    public int escolherJogada(JogoGeneral jogo);
+
+    public void iniciarJogoAzar(float aposta, int rodada);
 } 

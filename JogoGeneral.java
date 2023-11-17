@@ -19,10 +19,10 @@ public class JogoGeneral extends JogoDados implements Serializable{
         return jogadas[i-1];
     }
 
-    // Funcao que retorna o total de pontos feitos pelo jogador
+    // Funcao que retorna o total de pontos feitos pelo jogador exceto pela pontuacao da jogada 13 
     public int getTotal(int i){
         int soma = 0;
-        for(i=0; i<13; i++)
+        for(i=0; i<12; i++)     //nao conta jogada aleatoria
             soma += jogadas[i];
 
         return soma;
@@ -30,7 +30,7 @@ public class JogoGeneral extends JogoDados implements Serializable{
 
     // Funcao que valida se a jogada eh possivel e calcula os pontos marcados
     // Retorna 0 se a jogada nao for possivel ou os pontos marcados se ela for possivel
-    public int validarJogada(int jogada){
+    public int executarRegrasJogo(int jogada){
         int i, quant = 0;
         // Verifica e calcula os pontos para a Jogada de 1's
         if(jogada == 1){

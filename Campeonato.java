@@ -80,7 +80,7 @@ public class Campeonato {
                 // Procurar o jogador no vetor de jogadores
                 for(i=0; i<quantJog; i++){
                     if(jogadores[i].getNome().equals(nome)){
-                        indice = i;
+                        indice = i; //recebe a posicao do nome selecionado para remover do vetor de jogadores
                         break;
                     }
                 }
@@ -100,7 +100,40 @@ public class Campeonato {
 
     // Funcao para executar rodada(s) de aposta(s)
     public void iniciarJogo(){
-        
+        for(i = 0; i<quantJog; i++){
+            int opcao = 0;
+            float valorAposta = 0;
+            System.out.println("Qual jogo deseja jogar? [1 -> Jogo de Azar ou 2 -> Jogo de General]");
+            do {
+                opcao = teclado.nextInt();
+                if(opcao != 1 && opcao != 2)
+                    System.out.println("Opcao invalida, digite novamente (1 ou 2)\n");
+            } while (opcao != 1 && opcao != 2);
+
+            System.out.println("Quanto deseja apostar? Seu saldo: " + jogadores[i].getSaldo());
+            do {
+                valorAposta = teclado.nextFloat();
+                
+                if(valorAposta > jogadores[i].getSaldo()) //verificar se o valor da aposta eh maior que o saldo do jogador
+                    System.out.println("Valor de aposta maior que o saldo, digite um saldo valido!\n");
+
+                else if (valorAposta <= 0) //verificar se o valor da aposta eh menor ou igual a zero
+                    System.out.println("Valor de aposta invalido, digite um valor valido!\n");
+                else
+                    jogadores[i].setSaldo(jogadores[i].getSaldo() - valorAposta); //atualizar o saldo do jogador
+
+            } while (valorAposta > jogadores[i].getSaldo() || valorAposta <= 0);
+
+            if(opcao == 1){
+                JogoAzar jogo = new JogoAzar();
+                jogo.executarRegrasJogo(valorAposta);
+                jogadores[i].setSaldo(jogadores[i].getSaldo() + jogo.getValorAposta());
+            }
+            else{
+                JogoGeneral jogo = new JogoGeneral();
+                
+            }
+        }
     }
 
     // Funcao para mostrar os saldos dos jogadores

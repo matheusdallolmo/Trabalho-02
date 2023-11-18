@@ -13,10 +13,9 @@ public abstract class JogoDados implements Estatistica{
         }
     }
 
-    public void rolarDados(){
-        for(int i=0; i<dados.length; i++){
-            dados[i].roll();
-        }
+    public Dado rolarDados(){
+        dados[0].roll();
+        return dados[0];
     }
 
     public void imprimirDados(){
@@ -42,5 +41,5 @@ public abstract class JogoDados implements Estatistica{
         return soma;
     }
 
-    public abstract void executarRegrasJogo();
+    public abstract float executarRegrasJogo();
 }

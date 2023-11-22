@@ -1,15 +1,35 @@
 import java.io.Serializable;
 
 public class JogoGeneral extends JogoDados implements Serializable{
-    private int[] jogadas = new int[13]; 
+    private int[] jogadas; 
 
-    // Contrutor padrao
-    public JogoGeneral(float aposta){
-        super(5, "General", aposta);
+
+    // Construtor para a classe
+    public JogoGeneral(float valorAposta){
+        // Iniciar a super classe
+        super(5, "Jogo General", valorAposta);        
+
+        // Iniciar o vetor de jogadas
+        this.jogadas = new int[13];
+
+        // Iniciar cada jogada
         for(int i = 0; i < 13; i++)
-            jogadas[i] = -1;   
+            jogadas[i] = -1;
     }
-    
+
+    public float jogar(int tipoJog){
+        // Executar jogo para Humanos
+        if(tipoJog == 1){
+
+        }
+        // Executar jogo para Maquinas
+        else{
+
+        }
+        // Retorno para caso ocorra algum erro
+        return 0;
+    }
+
     //Funcao que retorna a pontuacao em determinada jogada
     public int getPontuacao(int jogada){ 
         return jogadas[jogada];

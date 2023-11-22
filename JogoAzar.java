@@ -1,19 +1,19 @@
 import java.io.Serializable;
 
-public class JogoAzar extends JogoDados implements Serializable {
+public class JogoAzar extends JogoDados implements Serializable{
     private float valorAposta, valorFinal;
     private int soma;
 
     // Construtor para a classe
-    public JogoAzar(float aposta) {
-        super(2, "Azar", aposta);
-        this.valorAposta = aposta;
+    public JogoAzar(float valorAposta){
+        super(2, "Jogo de Azar", valorAposta);
         this.soma = 0;
+        this.valorAposta = valorAposta;
         this.valorFinal = 0;
     }
 
     // Executar o Jogo de Azar
-    public float executarRegrasJogo() {
+    public float jogar(int tipoJog){
         int num = 0, lancamento = 1;
 
         // Informar que eh o primeiro lancamento
@@ -73,10 +73,5 @@ public class JogoAzar extends JogoDados implements Serializable {
         }
         // Retorno para caso aconteca algum imprevisto
         return -1F;
-    }
-
-    // Funcao para retornar o valor apostado nesse jogo
-    public float getValorAposta() {
-        return valorAposta;
-    }
+    }    
 }

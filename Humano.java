@@ -1,4 +1,5 @@
 import java.util.Scanner;
+
 public class Humano extends Jogador implements JogarComoHumano{
     private String cpf;
     private String agencia;
@@ -13,29 +14,65 @@ public class Humano extends Jogador implements JogarComoHumano{
         numeroBanco = 0;
     }
 
-    public Humano(String nome, String cpf, String agencia, String conta, int numeroBanco){
+    public Humano(String nome, String cpf){
         super(nome);
         this.cpf = cpf;
-        this.agencia = agencia;
-        this.conta = conta;
-        this.numeroBanco = numeroBanco;
+        this.agencia =  "Banco do Brasil";
+        this.conta = "514563598-7";
+        this.numeroBanco = 748;
     }
 
-    public int escolherJogo(){ //tem que achar o lugar certo ainda
-        int opcao = 0;
-        Scanner teclado = new Scanner(System.in);
+    public void iniciarJogoAzar(int rodada){
+        Scanner sc = new Scanner(System.in);
+        float valorAposta;
 
-        System.out.println("Escolha o jogo que deseja jogar: ");
-        System.out.println("1 - Jogo de Azar");
-        System.out.println("2 - Jogo General");
+        // Perguntar e validar quanto o jogador deseja apostar
+        System.out.println("Quanto deseja apostar? Seu saldo: " + super.getSaldo());
+        do{
+            valorAposta = sc.nextFloat();
+            sc.nextLine();
+            // Verificar se o valor da aposta eh maior que o saldo do jogador
+            if(valorAposta > super.getSaldo())
+                System.out.println("Valor de aposta maior que o saldo, digite um saldo valido!\n");
+            // Verificar se o valor da aposta eh menor ou igual a zero
+            else if(valorAposta <= 0)
+                System.out.println("Valor de aposta invalido, digite um valor valido!\n");
+        }while(valorAposta > super.getSaldo() || valorAposta <= 0);
 
-        opcao = teclado.nextInt();
-        teclado.nextLine();
+        // Encerrar o Scanner
+        sc.close();
 
-        return opcao;
+        // Remover do saldo do jogador o valor apostado
+        super.setSaldo(super.getSaldo() - valorAposta);
+
+        // Executar jogo de Azar
+        super.executarJogoAzar(rodada, valorAposta);
     }
 
-    public void escolherJogada(){
+    public void iniciarJogoGeneral(int rodada){
+        Scanner sc = new Scanner(System.in);
+        float valorAposta;
 
+        // Perguntar e validar quanto o jogador deseja apostar
+        System.out.println("Quanto deseja apostar? Seu saldo: " + super.getSaldo());
+        do{
+            valorAposta = sc.nextFloat();
+            sc.nextLine();
+            // Verificar se o valor da aposta eh maior que o saldo do jogador
+            if(valorAposta > super.getSaldo())
+                System.out.println("Valor de aposta maior que o saldo, digite um saldo valido!\n");
+            // Verificar se o valor da aposta eh menor ou igual a zero
+            else if(valorAposta <= 0)
+                System.out.println("Valor de aposta invalido, digite um valor valido!\n");
+        }while(valorAposta > super.getSaldo() || valorAposta <= 0);
+
+        // Encerrar o Scanner
+        sc.close();
+
+        // Remover do saldo do jogador o valor apostado
+        super.setSaldo(super.getSaldo() - valorAposta);
+
+        // Executar jogo de General
+        super.executarJogoGeneral(rodada, valorAposta, 1);
     }
 }

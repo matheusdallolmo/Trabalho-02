@@ -7,13 +7,17 @@ public abstract class Jogador implements Serializable{
 
     public Jogador(){
         this.nome = " ";
-        this.saldo = 100;
+        this.saldo = 100F;
     }
     
     public Jogador(String nome){
         this.nome = nome;
-        this.saldo = 100;
+        this.saldo = 100F;
     }
+
+    abstract void iniciarJogoAzar(int rodada);
+
+    abstract void iniciarJogoGeneral(int rodada);
 
     public String getNome(){
         return nome;
@@ -27,15 +31,15 @@ public abstract class Jogador implements Serializable{
         this.saldo = saldo;
     }
 
-    // Funcao que vai rodar o jogo de azar para Humanos 
-    public void iniciarJogoAzar(float aposta, int rodada){
+    // Funcao que vai rodar o jogo de azar 
+    public void executarJogoAzar(int rodada, float aposta){
         jogo[rodada] = new JogoAzar(aposta);
-        saldo += jogo[rodada].executarRegrasJogo();
+        saldo += jogo[rodada].jogar(0);
     }
 
-    // Funcao que vai rodar o jogo de general para Humanos 
-    public void iniciarJogoGeneral(float aposta, int rodada){
+    public void executarJogoGeneral(int rodada, float aposta, int tipoJogador){
         jogo[rodada] = new JogoGeneral(aposta);
-        saldo += jogo[rodada].executarRegrasJogo();
+        saldo += jogo[rodada].jogar(tipoJogador);
     }
+
 }

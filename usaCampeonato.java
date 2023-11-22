@@ -17,7 +17,7 @@ public class usaCampeonato{
             System.out.println("f -> Imprimir estatisticas");
             System.out.println("g -> Gravar os dados do campeonato em arquivo");
             System.out.println("h -> Ler os dados do campeonato do arquivo");
-            System.out.println("i -> Sair\n");
+            System.out.println("i -> Sair da aplicacao\n");
 
             System.out.println("Escolha uma opcao: ");
             opcao = sc.next().charAt(0);

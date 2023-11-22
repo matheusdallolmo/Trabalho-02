@@ -4,7 +4,8 @@ public class JogoGeneral extends JogoDados implements Serializable{
     private int[] jogadas = new int[13]; 
 
     // Contrutor padrao
-    public JogoGeneral(){
+    public JogoGeneral(float aposta){
+        super(5, "General", aposta);
         for(int i = 0; i < 13; i++)
             jogadas[i] = -1;   
     }

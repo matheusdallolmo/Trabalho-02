@@ -4,18 +4,18 @@ public abstract class JogoDados implements Estatistica{
     private float saldo;
     private Dado[] dados = new Dado[5];
 
-    public JogoDados(){
-        nDados = 0;
-        nomeJogo = " ";
-        saldo = 0.0F;
-        for(int i = 0; i < 5; i++){
+    public JogoDados(int numdados, String nome, float saldo){
+        this.nDados = numdados;
+        this.nomeJogo = nome;
+        this.saldo = saldo;
+        for(int i = 0; i < nDados; i++){
             dados[i] = new Dado();
         }
     }
 
-    public Dado rolarDados(){
-        dados[0].roll();
-        return dados[0];
+    public void rolarDados(){
+        for(int i=0; i< nDados; i++)
+            dados[i].roll();
     }
 
     public void imprimirDados(){

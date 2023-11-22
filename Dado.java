@@ -19,4 +19,5 @@ public class Dado implements Serializable{
         Random x = new Random();
         sideUp = x.nextInt(6) + 1;
     }
+
 }

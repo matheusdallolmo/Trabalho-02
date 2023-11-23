@@ -3,8 +3,7 @@ public class Maquina extends Jogador implements JogarComoMaquina{
         super(nome);
     }
 
-    public void iniciarJogoAzar(int rodada){
-        float valorAposta;
+    public void iniciarJogoAzar(int rodada, float valorAposta){
 
         if(super.getSaldo() < 30){
             valorAposta = super.getSaldo();
@@ -20,8 +19,7 @@ public class Maquina extends Jogador implements JogarComoMaquina{
         super.executarJogoAzar(rodada, valorAposta);
     }
 
-    public void iniciarJogoGeneral(int rodada){
-        float valorAposta;
+    public void iniciarJogoGeneral(int rodada, float valorAposta){
 
         if(super.getSaldo() < 30){
             valorAposta = super.getSaldo();

@@ -93,6 +93,7 @@ public class Campeonato{
     // Funcao para executar rodada(s) de aposta(s)
     public void iniciarJogo(){
         int aux, opcao;
+        float valorAposta;
 
         // Validar se existe pelo menos 1 jogador
         if(quantJog == 0)
@@ -123,12 +124,27 @@ public class Campeonato{
                                 // Validar se a opcao informada eh valida
                                 do{
                                     opcao = teclado.nextInt();
-                                    if(opcao != 1 && opcao != 2)
+                                    teclado.nextLine();
+                                    if(opcao != 1 && opcao != 2){
                                         System.out.println("Opcao invalida, digite novamente! (1 ou 2)\n");
+                                    }
                                 }while(opcao != 1 && opcao != 2);
+                                // Perguntar e validar quanto o jogador deseja apostar
+                                System.out.println("Quanto deseja apostar? Seu saldo: " + jogadores[r].getSaldo());
+                                do{
+                                    valorAposta = teclado.nextFloat();
+                                    teclado.nextLine();
+                                    // Verificar se o valor da aposta eh maior que o saldo do jogador
+                                    if (valorAposta > jogadores[r].getSaldo())
+                                        System.out.println(
+                                                "Valor de aposta maior que o saldo, digite um saldo valido!\n");
+                                    // Verificar se o valor da aposta eh menor ou igual a zero
+                                    else if (valorAposta <= 0)
+                                        System.out.println("Valor de aposta invalido, digite um valor valido!\n");
+                                } while (valorAposta > jogadores[r].getSaldo() || valorAposta <= 0);
                                 // Iniciar o jogo escolhido pelo jogador
                                 if(opcao == 1){
-                                    jogadores[r].iniciarJogoAzar(i);
+                                    jogadores[r].iniciarJogoAzar(i, valorAposta);
                                 } 
                                 else{
                                     //jogadores[r].iniciarJogoGeneral(i);
@@ -144,7 +160,7 @@ public class Campeonato{
                                 }
                                 // Iniciar o jogo escolhido pela maquina
                                 if(opcao == 1){
-                                    jogadores[r].iniciarJogoAzar(i);
+                                    jogadores[r].iniciarJogoAzar(i, 0);
                                 } 
                                 else{
                                     //jogadores[r].iniciarJogoGeneral(i);

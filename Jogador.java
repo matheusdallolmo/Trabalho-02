@@ -15,9 +15,9 @@ public abstract class Jogador implements Serializable{
         this.saldo = 100F;
     }
 
-    abstract void iniciarJogoAzar(int rodada);
+    abstract void iniciarJogoAzar(int rodada, float valorAposta);
 
-    abstract void iniciarJogoGeneral(int rodada);
+    abstract void iniciarJogoGeneral(int rodada, float valorAposta);
 
     public String getNome(){
         return nome;

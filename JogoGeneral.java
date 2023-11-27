@@ -20,14 +20,32 @@ public class JogoGeneral extends JogoDados implements Serializable{
     public float jogar(int tipoJog){
         // Executar jogo para Humanos
         if(tipoJog == 1){
+            System.out.println("\n-> Para qual jogada deseja marcar [1 - 13]?");
+                        System.out.printf("%s","1\t2\t3\t4\t5\t6\t7(T)\t8(Q)\t9(F)\t10(S+)\t11(S-)\t12(G)\t13(X)\n");  
+                        // For para imprimir todos os resultados que o jogador ja possui          
+                        for(int k = 0; k < 13; k++){
+                            aux = jogadores[i].getPontos(k);
+                            if(aux >= 0)
+                                System.out.printf("%s",aux+"\t");
+                            else
+                                System.out.printf("%s","-\t");
+                        }
+                        do{
+                            System.out.print("\nOpcao: ");        
+                            escolha = teclado.nextInt();
+                            if(escolha<1 || escolha>13)
+                                System.out.println("Escolha incorreta, selecione uma escolha valida: [1-13]");
 
+                        }while(escolha < 1 || escolha > 13); // Do while para que a pessoa selecione apenas jogadas validas, entre 1 e 13
+
+            
         }
         // Executar jogo para Maquinas
         else{
 
         }
         // Retorno para caso ocorra algum erro
-        return 0;
+        jogadas[jogada - 1] = 0;
     }
 
     //Funcao que retorna a pontuacao em determinada jogada
@@ -49,51 +67,56 @@ public class JogoGeneral extends JogoDados implements Serializable{
         return soma;
     }
 
+    // Funcao para atualizar a pontuacao do jogador
+    public void pontuarJogada(int jogada, int pontos){
+        jogadas[jogada - 1] = pontos;
+    }
+
     // Funcao que valida se a jogada eh possivel e calcula os pontos marcados
     // Retorna 0 se a jogada nao for possivel ou os pontos marcados se ela for possivel
-    public int executarRegrasJogo(int jogada){
+    public void executarRegrasJogo(int jogada){
         int i, quant = 0;
         // Verifica e calcula os pontos para a Jogada de 1's
         if(jogada == 1){
             for(i = 0; i < 5; i++)
                 if(valorDado(i) == 1)
                     quant += 1;                                                   
-            return quant;
+            jogadas[jogada - 1] = quant;
         }
         // Verifica e calcula os pontos para a Jogada de 2's
         else if(jogada == 2){
             for(i = 0; i < 5; i++)
                 if(valorDado(i) == 2)
                     quant += 2;
-            return quant;
+            jogadas[jogada - 1] = quant;
         }
         // Verifica e calcula os pontos para a Jogada de 3's
         else if(jogada == 3){
             for(i = 0; i < 5; i++)
                 if(valorDado(i) == 3)
                     quant += 3;
-            return quant;
+            jogadas[jogada - 1] = quant;
         }
         // Verifica e calcula os pontos para a Jogada de 4's
         else if(jogada == 4){
             for(i = 0; i < 5; i++)
                 if(valorDado(i) == 4)
                     quant += 4;
-            return quant;
+            jogadas[jogada - 1] = quant;
         }
         // Verifica e calcula os pontos para a Jogada de 5's
         else if(jogada == 5){
             for(i = 0; i < 5; i++)
                 if(valorDado(i) == 5)
                     quant += 5;
-            return quant;
+            jogadas[jogada - 1] = quant;
         }
         // Verifica e calcula os pontos para a Jogada de 6's
         else if(jogada == 6){
             for(i = 0; i < 5; i++)
                 if(valorDado(i) == 6)
                     quant += 6;
-            return quant;
+            jogadas[jogada - 1] = quant;
         }
         // Verifica e calcula os pontos para a Trinca(T)
         else if(jogada == 7){
@@ -106,13 +129,13 @@ public class JogoGeneral extends JogoDados implements Serializable{
                             quant = 0;
                             for(int k = 0; k < 5; k++)
                                 quant += valorDado(k);   //se existirem, retorna a soma dos dados
-                            return quant;
+                            jogadas[jogada - 1] = quant;
                         }
                             
                     }
                 }
             }
-            return 0;
+            jogadas[jogada - 1] = 0;
         }
 
         // Verifica e calcula os pontos para a Quadra(Q)
@@ -126,12 +149,12 @@ public class JogoGeneral extends JogoDados implements Serializable{
                              quant = 0;
                             for(int k = 0; k < 5; k++)
                                 quant += valorDado(k);   //se existirem, retorna a soma dos dados
-                            return quant;
+                            jogadas[jogada - 1] = quant;
                         }  
                     }
                 }
             }
-            return 0;
+            jogadas[jogada - 1] = 0;
         }
 
         // Verifica e calcula os pontos para Full-Hand(F)/Full-House(F)
@@ -141,9 +164,9 @@ public class JogoGeneral extends JogoDados implements Serializable{
                     if(valorDado(i) != valorDado(j)){
                         for(int k =0; k<5; k++){
                             if((valorDado(k) != valorDado(i)) && (valorDado(k) != valorDado(j)))  //verifica se ha mais de dois numeros diferentes
-                                return 0;                                              //verifica com os dois possiveis numeros do FH, caso haja mais de um num. diferente, retorna 0
+                                jogadas[jogada - 1] = 0;                                              //verifica com os dois possiveis numeros do FH, caso haja mais de um num. diferente, retorna 0
                         }
-                        return 25;
+                        jogadas[jogada - 1] = 25;
                     }
                 }
             }
@@ -153,29 +176,29 @@ public class JogoGeneral extends JogoDados implements Serializable{
         else if (jogada == 10){
             for(i = 0; i<5; i++){
                 if(valorDado(i) == 1) //na seq. baixa nao pode haver 1, portanto, verifica
-                        return 0;
+                        jogadas[jogada - 1] = 0;
                 for(int j=0; j<5; j++){
                     if(i != j)
                         if(valorDado(i) == valorDado(j)) //em ambas as sequencias nao pode haver numeros iguais
-                            return 0;
+                            jogadas[jogada - 1] = 0;
                 }
             }
-            return 30;
+            jogadas[jogada - 1] = 30;
         }
 
         //Verifica e calcula os pontos para Sequencia Baixa (S-)
         else if (jogada == 11){
             for(i = 0; i<5; i++){ 
                 if(valorDado(i) == 6)   //na seq. baixa nao pode haver 6, portanto, verifica
-                        return 0;
+                        jogadas[jogada - 1] = 0;
                 for(int j=0; j<5; j++){
                     if(i != j)
                         if(valorDado(i) == valorDado(j)) //em ambas as sequencias nao pode haver numeros iguais
-                            return 0;
+                            jogadas[jogada - 1] = 0;
                 }
             }
             
-            return 40;
+            jogadas[jogada - 1] = 40;
         }
 
         //Verifica e calcula os pontos para General(G)
@@ -183,9 +206,9 @@ public class JogoGeneral extends JogoDados implements Serializable{
             for(i=0; i<5; i++)
                 for(int j=0; j<5; j++)
                     if(valorDado(i) != valorDado(j)) //Caso algum dado for diferente, nao eh general
-                        return 0;
+                        jogadas[jogada - 1] = 0;
             
-            return 50;      
+            jogadas[jogada - 1] = 50;      
         }
         
         //Verifica e calcula os pontos para Jogada Aleatoria(X)
@@ -194,14 +217,12 @@ public class JogoGeneral extends JogoDados implements Serializable{
             for(i = 0; i<5; i++)
                 quant += valorDado(i);   //Retorna a soma de todos os dados
 
-            return quant;
+            jogadas[jogada - 1] = quant;
         }
 
-        return -1;
+        //Retorna 0 caso a jogada nao seja possivel
+        else
+            jogadas[jogada - 1] = 0; 
     }
 
-    // Funcao para atualizar a pontuacao do jogador
-    public void pontuarJogada(int jogada, int pontos){
-        jogadas[jogada - 1] = pontos;
-    }
 }

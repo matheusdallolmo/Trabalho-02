@@ -83,33 +83,56 @@ public class JogoGeneral extends JogoDados implements Serializable{
         }
         // Executar jogo para Maquinas
         else{
-            // Funcao que calcula a melhor jogada para a maquina(jogadaMaquina)
-            int escolhaMaq = jogadaMaquina(); 
-            System.out.println("\nJogada escolhida: " + escolhaMaq);
-
-            int pontos = validarJogada(escolhaMaq);
-            // Mensagem que informa que a maquina zerou a jogada
-            if(pontos == 0){ 
-                System.out.println("Maquina zerou a jogada!!\n");
-                jogadas[escolhaMaq] = pontos;
-            }
-            // Mensagem que informa quantos pontos a maquina marcou na rodada
-            else
-                System.out.println("Maquina fez "+pontos+" na jogada "+ escolhaMaq);
-                jogadas[escolhaMaq] = pontos;
-
-            System.out.printf("%s","1\t2\t3\t4\t5\t6\t7(T)\t8(Q)\t9(F)\t10(S+)\t11(S-)\t12(G)\t13(X)\n"); 
-            // For para imprimir todos os resultados que o jogador ja possui          
-                for(int k = 0; k < 13; k++){
-                    aux = jogadas[k];
-                    if(aux >= 0)
-                        System.out.printf("%s",aux+"\t");
-                    else
-                        System.out.printf("%s","-\t");
+            System.out.println("A maquina vai apostar "+valorAposta+" nesta rodada!");
+            // For para as 13 jogadas
+            for(int j = 0; j < 13; j++){
+                // Rolar os dados
+                super.rolarDados();
+                // For para mostrar os resultados que o jogador conseguiu nos dados
+                System.out.println("Valores obtidos: ");
+                for(int i=0; i<5; i++){
+                    System.out.print(valorDado(i));
+                    if(i != 4)
+                        System.out.print("-");
                 }
-            System.out.println();
+                // Funcao que calcula a melhor jogada para a maquina(jogadaMaquina)
+                int escolhaMaq = jogadaMaquina(); 
+                System.out.println("\nJogada escolhida: " + escolhaMaq);
+
+                int pontos = validarJogada(escolhaMaq);
+                // Mensagem que informa que a maquina zerou a jogada
+                if(pontos == 0){ 
+                    System.out.println("Maquina zerou a jogada!!\n");
+                    jogadas[escolhaMaq - 1] = pontos;
+                }
+                // Mensagem que informa quantos pontos a maquina marcou na rodada
+                else
+                    System.out.println("Maquina fez "+pontos+" na jogada "+ escolhaMaq);
+                    jogadas[escolhaMaq - 1] = pontos;
+
+                System.out.printf("%s","1\t2\t3\t4\t5\t6\t7(T)\t8(Q)\t9(F)\t10(S+)\t11(S-)\t12(G)\t13(X)\n"); 
+                // For para imprimir todos os resultados que o jogador ja possui          
+                    for(int k = 0; k < 13; k++){
+                        aux = jogadas[k];
+                        if(aux >= 0)
+                            System.out.printf("%s",aux+"\t");
+                        else
+                            System.out.printf("%s","-\t");
+                    }
+                System.out.println();
+            }
+            total = 0;
+            for(int i = 0; i < 13; i++)
+                total += jogadas[i];
+            if(total > (jogadas[12] * 2)){
+                System.out.println("A maquina ganhou " + (valorAposta * 2) + " nesta rodada");
+                return (valorAposta * 2);
+            }
+            else{
+                System.out.println("A maquina perdeu: -"+valorAposta);
+                return 0;
+            }
         }
-        return -1;
     }
 
     //Funcao que retorna a pontuacao em determinada jogada
@@ -232,7 +255,7 @@ public class JogoGeneral extends JogoDados implements Serializable{
             for(i = 0; i < 5; i++){
                 if(valorDado(i) == a)
                     contA++;
-                else
+                else if(b == -1)
                     b = valorDado(i);
                 if(valorDado(i) == b)
                     contB++;
@@ -246,47 +269,40 @@ public class JogoGeneral extends JogoDados implements Serializable{
 
         //Verifica e calcula os pontos para Sequencia Alta (S+)
         else if (jogada == 10){
+            int encontrado;
             valida = 0;
-            for(i = 0; i<5; i++){
-                if(valorDado(i) == 1){//na seq. baixa nao pode haver 1, portanto, verifica
-                    jogadas[jogada - 1] = 0;
+            for(i = 2; i <= 6; i++){
+                encontrado = 0;
+                for(int j = 0; j < 5; j++){
+                    if(valorDado(j) == i)
+                        encontrado = 1;
+                }
+                if(encontrado == 0){
+                    jogadas[jogada -1] = 0;
                     valida++;
-                    break;
-                }  
-                for(int j=0; j<5; j++){
-                    if(i != j)
-                        if(valorDado(i) == valorDado(j)) //em ambas as sequencias nao pode haver numeros iguais
-                            valida++;
-                            jogadas[jogada - 1] = 0;
-                            break;
                 }
             }
-            if(valida == 0){
+            if(valida == 0)
                 jogadas[jogada - 1] = 30;
-            }
         }
 
         //Verifica e calcula os pontos para Sequencia Baixa (S-)
         else if (jogada == 11){
+            int encontrado;
             valida = 0;
-            for(i = 0; i<5; i++){ //na seq. baixa nao pode haver 6, portanto, verifica
-                if(valorDado(i) == 6){
-                    jogadas[jogada - 1] = 0;
+            for(i = 1; i <= 5; i++){
+                encontrado = 0;
+                for(int j = 0; j < 5; j++){
+                    if(valorDado(j) == i)
+                        encontrado = 1;
+                }
+                if(encontrado == 0){
+                    jogadas[jogada -1] = 0;
                     valida++;
-                    break;
-                }
-                        
-                for(int j=0; j<5; j++){
-                    if(i != j)
-                        if(valorDado(i) == valorDado(j)) //em ambas as sequencias nao pode haver numeros iguais
-                            valida++;
-                            jogadas[jogada - 1] = 0;
-                            break;
                 }
             }
-            if(valida == 0){
+            if(valida == 0)
                 jogadas[jogada - 1] = 40;
-            }
         }
 
         //Verifica e calcula os pontos para General(G)
@@ -411,7 +427,7 @@ public class JogoGeneral extends JogoDados implements Serializable{
             for(i = 0; i < 5; i++){
                 if(valorDado(i) == a)
                     contA++;
-                else
+                else if(b == -1)
                     b = valorDado(i);
                 if(valorDado(i) == b)
                     contB++;
@@ -425,47 +441,36 @@ public class JogoGeneral extends JogoDados implements Serializable{
 
         //Verifica e calcula os pontos para Sequencia Alta (S+)
         else if (jogada == 10){
+            int encontrado;
             valida = 0;
-            for(i = 0; i<5; i++){
-                if(valorDado(i) == 1){//na seq. baixa nao pode haver 1, portanto, verifica
-                    valida++;
-                    break;
-                }  
-                for(int j=0; j<5; j++){
-                    if(i != j)
-                        if(valorDado(i) == valorDado(j)) //em ambas as sequencias nao pode haver numeros iguais
-                            valida++;
-                            break;
+            for(i = 2; i <= 6; i++){
+                encontrado = 0;
+                for(int j = 0; j < 5; j++){
+                    if(valorDado(j) == i)
+                        encontrado = 1;
+                }
+                if(encontrado == 0){
+                    return 0;
                 }
             }
-            if(valida == 0){
-                return 30;
-            }
-            else
-                return 0;
+            return 30;
         }
 
         //Verifica e calcula os pontos para Sequencia Baixa (S-)
         else if (jogada == 11){
+            int encontrado;
             valida = 0;
-            for(i = 0; i<5; i++){ //na seq. baixa nao pode haver 6, portanto, verifica
-                if(valorDado(i) == 6){
-                    valida++;
-                    break;
+            for(i = 1; i <= 5; i++){
+                encontrado = 0;
+                for(int j = 0; j < 5; j++){
+                    if(valorDado(j) == i)
+                        encontrado = 1;
                 }
-                        
-                for(int j=0; j<5; j++){
-                    if(i != j)
-                        if(valorDado(i) == valorDado(j)) //em ambas as sequencias nao pode haver numeros iguais
-                            valida++;
-                            break;
+                if(encontrado == 0){
+                    return 0;
                 }
             }
-            if(valida == 0){
-                return 40;
-            }
-            else
-                return 0;
+            return 40;
         }
 
         //Verifica e calcula os pontos para General(G)
@@ -474,7 +479,6 @@ public class JogoGeneral extends JogoDados implements Serializable{
             for(i=0; i<5; i++)
                 for(int j=0; j<5; j++)
                     if(valorDado(i) != valorDado(j)){  //Caso algum dado for diferente, nao eh general
-                        jogadas[jogada - 1] = 0;
                         valida++;
                         break;
                     }
@@ -501,19 +505,19 @@ public class JogoGeneral extends JogoDados implements Serializable{
     }
 
     public int jogadaMaquina(){
-        if ((jogadas[12] == -1) && (validarJogada(12) == 50))
+        if ((jogadas[11] == -1) && (validarJogada(12) == 50))
             return 12;
-        else if ((jogadas[11] == -1) && (validarJogada(11) == 40))
+        else if ((jogadas[10] == -1) && (validarJogada(11) == 40))
             return 11;
-        else if ((jogadas[10] == -1) && (validarJogada(10) == 30))
+        else if ((jogadas[9] == -1) && (validarJogada(10) == 30))
             return 10;
-        else if ((jogadas[9] == -1) && (validarJogada(9) == 25))
+        else if ((jogadas[8] == -1) && (validarJogada(9) == 25))
             return 9;
-        else if ((jogadas[8] == -1) && (validarJogada(8) != 0))
+        else if ((jogadas[7] == -1) && (validarJogada(8) != 0))
             return 8;
-        else if ((jogadas[7] == -1) && (validarJogada(7) != 0))
+        else if ((jogadas[6] == -1) && (validarJogada(7) != 0))
             return 7;
-        else if ((jogadas[6] == -1) && (validarJogada(13) != 0))
+        else if ((jogadas[12] == -1) && (validarJogada(13) != 0))
             return 13;
         else if ((jogadas[5] == -1) && (validarJogada(6) != 0))
             return 6;

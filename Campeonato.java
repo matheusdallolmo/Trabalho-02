@@ -173,7 +173,7 @@ public class Campeonato {
                                 if (opcao == 1) {
                                     jogadores[r].iniciarJogoAzar(i, 0);
                                 } else {
-                                    // jogadores[r].iniciarJogoGeneral(i);
+                                    jogadores[r].iniciarJogoGeneral(i, 0);
                                 }
                             }
                         }

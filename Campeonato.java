@@ -171,8 +171,10 @@ public class Campeonato {
                                 }
                                 // Iniciar o jogo escolhido pela maquina
                                 if (opcao == 1) {
+                                    System.out.println("A maquina "+jogadores[r].getNome()+" escolheu apostar no Jogo de Azar");
                                     jogadores[r].iniciarJogoAzar(i, 0);
                                 } else {
+                                    System.out.println("A maquina "+jogadores[r].getNome()+" escolheu apostar no Jogo General");
                                     jogadores[r].iniciarJogoGeneral(i, 0);
                                 }
                             }

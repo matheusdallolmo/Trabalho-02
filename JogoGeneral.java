@@ -83,7 +83,7 @@ public class JogoGeneral extends JogoDados implements Serializable{
         }
         // Executar jogo para Maquinas
         else{
-            System.out.println("A maquina vai apostar "+valorAposta+" nesta rodada!");
+            System.out.printf("A maquina vai apostar %.2f nesta rodada!\n", valorAposta);
             // For para as 13 jogadas
             for(int j = 0; j < 13; j++){
                 // Rolar os dados
@@ -125,11 +125,11 @@ public class JogoGeneral extends JogoDados implements Serializable{
             for(int i = 0; i < 13; i++)
                 total += jogadas[i];
             if(total > (jogadas[12] * 2)){
-                System.out.println("A maquina ganhou " + (valorAposta * 2) + " nesta rodada");
+                System.out.printf("A maquina ganhou %.2f nesta rodada!!\n", (valorAposta * 2));
                 return (valorAposta * 2);
             }
             else{
-                System.out.println("A maquina perdeu: -"+valorAposta);
+                System.out.printf("A maquina perdeu: -%.2f\n", valorAposta);
                 return 0;
             }
         }
@@ -210,21 +210,18 @@ public class JogoGeneral extends JogoDados implements Serializable{
             for(i = 0; i < 5; i++){
                 quant = 0;
                 for(int j = 0; j < 5; j++){
-                    if(valorDado(i) == valorDado(j)){
-                        quant += 1;
-                        if(quant >= 3){ //Verifica se existem 3 dados iguais
-                            quant = 0;
-                            for(int k = 0; k < 5; k++)
-                                quant += valorDado(k);   //se existirem, retorna a soma dos dados
-                            jogadas[jogada - 1] = quant;
-                            break;
-                        }
-                        else{
-                            jogadas[jogada - 1] = 0;
-                        }
+                    if(valorDado(j) == i){
+                        quant++;
                     }
                 }
+                if(quant >= 3){
+                    quant = 0;
+                    for(int k = 0; k < 5; k++)
+                        quant += valorDado(k);
+                    jogadas[jogada - 1] = quant;
+                }
             }
+            jogadas[jogada - 1] = 0;
         }
 
         // Verifica e calcula os pontos para a Quadra(Q)
@@ -232,20 +229,18 @@ public class JogoGeneral extends JogoDados implements Serializable{
             for(i = 0; i < 5; i++){
                 quant = 0;
                 for(int j = 0; j < 5; j++){
-                    if(valorDado(i) == valorDado(j)){
-                        quant += 1;
-                        if(quant >= 4){  //Verifica se existem 4 dados iguais
-                             quant = 0;
-                            for(int k = 0; k < 5; k++)
-                                quant += valorDado(k);   //se existirem, retorna a soma dos dados
-                            jogadas[jogada - 1] = quant;
-                        }  
-                        else{
-                            jogadas[jogada - 1] = 0;
-                        }
+                    if(valorDado(j) == i){
+                        quant++;
                     }
                 }
+                if(quant >= 4){
+                    quant = 0;
+                    for(int k = 0; k < 5; k++)
+                        quant += valorDado(k);
+                    jogadas[jogada - 1] = quant;
+                }
             }
+            jogadas[jogada - 1] = 0;
         }
 
         // Verifica e calcula os pontos para Full-Hand(F)/Full-House(F)
@@ -383,20 +378,18 @@ public class JogoGeneral extends JogoDados implements Serializable{
             for(i = 0; i < 5; i++){
                 quant = 0;
                 for(int j = 0; j < 5; j++){
-                    if(valorDado(i) == valorDado(j)){
-                        quant += 1;
-                        if(quant >= 3){ //Verifica se existem 3 dados iguais
-                            quant = 0;
-                            for(int k = 0; k < 5; k++)
-                                quant += valorDado(k);   //se existirem, retorna a soma dos dados
-                            return quant;
-                        }
-                        else{
-                            return 0;
-                        }
+                    if(valorDado(j) == i){
+                        quant++;
                     }
                 }
+                if(quant >= 3){
+                    quant = 0;
+                    for(int k = 0; k < 5; k++)
+                        quant += valorDado(k);
+                        return quant;
+                }
             }
+            return 0;
         }
 
         // Verifica e calcula os pontos para a Quadra(Q)
@@ -404,20 +397,18 @@ public class JogoGeneral extends JogoDados implements Serializable{
             for(i = 0; i < 5; i++){
                 quant = 0;
                 for(int j = 0; j < 5; j++){
-                    if(valorDado(i) == valorDado(j)){
-                        quant += 1;
-                        if(quant >= 4){  //Verifica se existem 4 dados iguais
-                             quant = 0;
-                            for(int k = 0; k < 5; k++)
-                                quant += valorDado(k);   //se existirem, retorna a soma dos dados
-                            return quant;
-                        }  
-                        else{
-                            return 0;
-                        }
+                    if(valorDado(j) == i){
+                        quant++;
                     }
                 }
+                if(quant >= 4){
+                    quant = 0;
+                    for(int k = 0; k < 5; k++)
+                        quant += valorDado(k);
+                        return quant;
+                }
             }
+            return 0;
         }
 
         // Verifica e calcula os pontos para Full-Hand(F)/Full-House(F)
@@ -501,7 +492,6 @@ public class JogoGeneral extends JogoDados implements Serializable{
         //Retorna 0 caso a jogada nao seja possivel
         else
             return 0;
-        return 0;
     }
 
     public int jogadaMaquina(){

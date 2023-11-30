@@ -37,7 +37,7 @@ public class usaCampeonato{
                     camp.imprimirSaldos();
                 break;
                 case 'e':
-                    camp.imprimirResultados();
+                    camp.imprimirExtratos();
                 break;
                 case 'f':
                     camp.imprimirEstatisticas();
@@ -49,7 +49,7 @@ public class usaCampeonato{
                     camp.lerDoArquivo();
                 break;
                 case 'i':
-                    System.out.println("Obrigado por jogar.");
+                    System.out.println("Obrigado por jogar!");
                     break;
                 default:
                     System.out.println("Opcao invalida. Tente novamente!");

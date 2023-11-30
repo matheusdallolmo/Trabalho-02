@@ -1,9 +1,8 @@
-import java.io.Serializable;
 import java.util.Scanner;
 
-public class JogoGeneral extends JogoDados implements Serializable{
+public class JogoGeneral extends JogoDados{
     private int[] jogadas;
-    float valorAposta;
+    float valorAposta, valorFinal;
 
 
     // Construtor para a classe
@@ -11,6 +10,7 @@ public class JogoGeneral extends JogoDados implements Serializable{
         // Iniciar a super classe
         super(5, "Jogo General", valorAposta);  
         this.valorAposta = valorAposta;      
+        this.valorFinal = 0;
 
         // Iniciar o vetor de jogadas
         this.jogadas = new int[13];
@@ -20,6 +20,17 @@ public class JogoGeneral extends JogoDados implements Serializable{
             jogadas[i] = -1;
     }
 
+    //Funcao getter para o valor da aposta
+    public float getValorAposta(){
+        return valorAposta;
+    }
+
+    //Funcao getter para retornar o resultado do jogo (se 1 ganhou se 0 perdeu)
+    public float getValorFinal(){
+        return valorFinal;
+    }
+
+    // Executar o Jogo de General
     public float jogar(int tipoJog){
         Scanner teclado = new Scanner(System.in);
         int aux, total;
@@ -70,14 +81,16 @@ public class JogoGeneral extends JogoDados implements Serializable{
                     System.out.println("Voce fez "+jogadas[(escolha - 1)]+" na jogada "+ escolha + "\n");
             }
             total = 0;
-            for(int i = 0; i < 13; i++)
+            for(int i = 0; i < 12; i++) //For para verificar todas as jogadas entre 1-12 e somar os pontos
                 total += jogadas[i];
             if(total > (jogadas[12] * 2)){
                 System.out.println("Voce ganhou " + (valorAposta * 2) + " nesta rodada");
+                valorFinal = 1; 
                 return (valorAposta * 2);
             }
             else{
                 System.out.println("Voce perdeu!!");
+                valorFinal = 0;
                 return 0;
             }
         }
@@ -122,14 +135,16 @@ public class JogoGeneral extends JogoDados implements Serializable{
                 System.out.println();
             }
             total = 0;
-            for(int i = 0; i < 13; i++)
+            for(int i = 0; i < 12; i++) //for para verificar todas as jogadas entre 1-12 e somar os pontos
                 total += jogadas[i];
             if(total > (jogadas[12] * 2)){
                 System.out.printf("A maquina ganhou %.2f nesta rodada!!\n", (valorAposta * 2));
+                valorFinal = 1;
                 return (valorAposta * 2);
             }
             else{
                 System.out.printf("A maquina perdeu: -%.2f\n", valorAposta);
+                valorFinal = 0;
                 return 0;
             }
         }
@@ -146,9 +161,9 @@ public class JogoGeneral extends JogoDados implements Serializable{
     }
 
     // Funcao que retorna o total de pontos feitos pelo jogador exceto pela pontuacao da jogada 13 
-    public int getTotal(int i){
+    public int getTotal(){
         int soma = 0;
-        for(i=0; i<12; i++)     //nao conta jogada aleatoria
+        for(int i=0; i<13; i++)    
             soma += jogadas[i];
 
         return soma;
@@ -375,7 +390,7 @@ public class JogoGeneral extends JogoDados implements Serializable{
         }
         // Verifica e calcula os pontos para a Trinca(T)
         else if(jogada == 7){
-            for(i = 0; i < 5; i++){
+            for(i = 1; i <= 6; i++){
                 quant = 0;
                 for(int j = 0; j < 5; j++){
                     if(valorDado(j) == i){
@@ -394,7 +409,7 @@ public class JogoGeneral extends JogoDados implements Serializable{
 
         // Verifica e calcula os pontos para a Quadra(Q)
         else if(jogada == 8){
-            for(i = 0; i < 5; i++){
+            for(i = 1; i <= 6; i++){
                 quant = 0;
                 for(int j = 0; j < 5; j++){
                     if(valorDado(j) == i){

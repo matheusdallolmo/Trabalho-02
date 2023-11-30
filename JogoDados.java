@@ -1,4 +1,5 @@
-public abstract class JogoDados implements Estatistica{
+import java.io.Serializable;
+public abstract class JogoDados implements Estatistica, Serializable{
     private int nDados;
     private String nomeJogo;
     private float saldo;

@@ -32,18 +32,8 @@ public class Campeonato {
                 if (tipoJogador != 'h' && tipoJogador != 'H' && tipoJogador != 'm' && tipoJogador != 'M')
                     System.out.println("Tipo de jogador incorreto, digite a opcao novamente (H,M) ou (h,m)\n");
 
-            } while (tipoJogador != 'h' && tipoJogador != 'H' && tipoJogador != 'm' && tipoJogador != 'M'); // Do while
-                                                                                                            // para que
-                                                                                                            // a pessoa
-                                                                                                            // selecione
-                                                                                                            // apenas
-                                                                                                            // opcoes
-                                                                                                            // corretas
-                                                                                                            // H ou M
-                                                                                                            // (tanto
-                                                                                                            // maiusculo
-                                                                                                            // quanto
-                                                                                                            // minusculo)
+            } while (tipoJogador != 'h' && tipoJogador != 'H' && tipoJogador != 'm' && tipoJogador != 'M'); 
+            // Do while para que a pessoa selecione apenas opcoes corretas H ou M (tanto maiusculo quanto minusculo)
 
             if (tipoJogador == 'h' || tipoJogador == 'H') {
                 System.out.println("Informe o CPF do jogador: ");
@@ -104,7 +94,7 @@ public class Campeonato {
 
     // Funcao para executar rodada(s) de aposta(s)
     public void iniciarJogo() {
-        int aux, opcao;
+        int aux, opcaoTipo;
         float valorAposta;
 
         // Validar se existe pelo menos 1 jogador
@@ -136,12 +126,12 @@ public class Campeonato {
                                         + ", qual tipo de jogo voce deseja apostar? [1 -> Jogo de Azar ou 2 -> Jogo de General]");
                                 // Validar se a opcao informada eh valida
                                 do {
-                                    opcao = teclado.nextInt();
+                                    opcaoTipo = teclado.nextInt();
                                     teclado.nextLine();
-                                    if (opcao != 1 && opcao != 2) {
+                                    if (opcaoTipo != 1 && opcaoTipo != 2) {
                                         System.out.println("Opcao invalida, digite novamente! (1 ou 2)\n");
                                     }
-                                } while (opcao != 1 && opcao != 2);
+                                } while (opcaoTipo != 1 && opcaoTipo != 2);
                                 // Perguntar e validar quanto o jogador deseja apostar
                                 System.out.println("Quanto deseja apostar? Seu saldo: " + jogadores[r].getSaldo());
                                 do {
@@ -156,21 +146,22 @@ public class Campeonato {
                                         System.out.println("Valor de aposta invalido, digite um valor valido!\n");
                                 } while (valorAposta > jogadores[r].getSaldo() || valorAposta <= 0);
                                 // Iniciar o jogo escolhido pelo jogador
-                                if (opcao == 1) {
+                                if (opcaoTipo == 1) {
                                     jogadores[r].iniciarJogoAzar(i, valorAposta);
                                 } else {
                                     jogadores[r].iniciarJogoGeneral(i, valorAposta);
                                 }
                             }
+                            
                             // Fazer a logica da maquina
                             else {
                                 if (i % 2 == 0) {
-                                    opcao = 1;
+                                    opcaoTipo = 1;
                                 } else {
-                                    opcao = 2;
+                                    opcaoTipo = 2;
                                 }
                                 // Iniciar o jogo escolhido pela maquina
-                                if (opcao == 1) {
+                                if (opcaoTipo == 1) {
                                     System.out.println("A maquina "+jogadores[r].getNome()+" escolheu apostar no Jogo de Azar");
                                     jogadores[r].iniciarJogoAzar(i, 0);
                                 } else {
@@ -192,12 +183,15 @@ public class Campeonato {
                     break;
                 }
             }
+            if (i == 10) {
+                System.out.println("Fim do jogo!\n");
+            }
         }
     }
 
     // Funcao para mostrar os saldos dos jogadores
     public void imprimirSaldos(){
-        char opcao;
+        char opcaoTipo;
         int contChecagem = 0;
 
         // Validar se existe pelo menos 1 jogador
@@ -206,75 +200,252 @@ public class Campeonato {
         else{
             System.out.println("Saldo de qual tipo de jogador voce deseja imprimir? [H -> Humano ou M -> Maquina ou T -> Todos]:");
 
-            // Validar se a opcao informada eh valida
+            // Validar se a opcaoTipo informada eh valida
             do{
-                opcao = teclado.next().charAt(0);
+                opcaoTipo = teclado.next().charAt(0);
                 teclado.nextLine();
-                if(opcao != 'h' && opcao != 'H' && opcao != 'm' && opcao != 'M' && opcao != 't' && opcao != 'T')
-                    System.out.println("Tipo de jogador incorreto, digite a opcao novamente (H,M,T) ou (h,m,t)\n");
+
+                if(opcaoTipo != 'h' && opcaoTipo != 'H' && opcaoTipo != 'm' && opcaoTipo != 'M' && opcaoTipo != 't' && opcaoTipo != 'T') //verificando se foi fornecido o tipo de jogador correto
+                    System.out.println("Tipo de jogador incorreto, digite a opcaoTipo novamente (H,M,T) ou (h,m,t)\n");
                 else{
+                    if(opcaoTipo == 'h' || opcaoTipo == 'H')
+                        System.out.println("Saldo final de todos os jogadores Humanos(H): ");
+                    else if(opcaoTipo == 'm' || opcaoTipo == 'M')
+                        System.out.println("Saldo final de todos os jogadores Maquinas(M): ");
+                    else
+                        System.out.println("Saldo de final de todos os jogadores Humanos(H) e Maquinas(M): ");
                     for(i = 0; i < quantJog; i++){
-                        if(opcao == 'h' || opcao == 'H'){
-                            if(jogadores[i] instanceof Humano){
-                                System.out.println("Saldo do jogador (H): " + jogadores[i].getNome() + " -> " +jogadores[i].getSaldo() +"$");
+                        if(opcaoTipo == 'h' || opcaoTipo == 'H'){
+                            if(jogadores[i] instanceof Humano){  //polimorfismo, verificando se o jogador eh humano
+                                System.out.println("Saldo final do jogador: " + jogadores[i].getNome() +" (H) -> " + String.format("%.2f", jogadores[i].getSaldo()) +"$");
                                 contChecagem++;
                             }
                             else{
-                                if(contChecagem == 0 && i == quantJog - 1) //contador para saber se ha jogadores humanos
+                                if(contChecagem == 0 && i == quantJog - 1) //contador para saber se ha jogadores humanos apos percorrer todo o vetor
                                     System.out.println("Nao ha jogadores humanos!\n");
                             }
                         }
     
-                        else if(opcao == 'm' || opcao == 'M'){
-                            if(jogadores[i] instanceof Maquina){
-                                System.out.println("Saldo do jogador (M): " + jogadores[i].getNome() + " -> " +jogadores[i].getSaldo() +"$");
+                        else if(opcaoTipo == 'm' || opcaoTipo == 'M'){
+                            if(jogadores[i] instanceof Maquina){ //polimorfismo, verificando se o jogador eh maquina
+                                System.out.println("Saldo final do jogador: " + jogadores[i].getNome() +" (M) -> " + String.format("%.2f", jogadores[i].getSaldo()) +"$");
                                 contChecagem++;
                             }
                             else{
-                                if(contChecagem == 0 && i == quantJog - 1)
+                                if(contChecagem == 0 && i == quantJog - 1) //contador para saber se ha jogadores maquina apos percorrer todo o vetor
                                     System.out.println("Nao ha jogadores maquinas!\n");
                             }    
                         }
 
-                        else{
-                            System.out.println("Saldo do jogador: " + jogadores[i].getNome() + " -> " +jogadores[i].getSaldo() +"$");
+                        else{ //Imprimindo o saldo final de todos os jogadores Humanos e Maquinas
+                            System.out.print("Saldo final do jogador: ");
+                            if(jogadores[i] instanceof Humano) 
+                                System.out.print(jogadores[i].getNome() + " (H) -> " + String.format("%.2f", jogadores[i].getSaldo()) +"$\n");
+                            else
+                                System.out.print(jogadores[i].getNome() + " (M) -> " + String.format("%.2f", jogadores[i].getSaldo()) +"$\n");
                         }
                     }
                 }
                     
-            }while(opcao != 'h' && opcao != 'H' && opcao != 'm' && opcao != 'M' && opcao != 't' && opcao != 'T'); //Do while para que a pessoa selecione apenas opcoes corretas H ou M (tanto maiusculo quanto minusculo)
-
-            /*// For para cada jogador incluido no jogo
-            for (int r = 0; r < quantJog; r++){
-
-                // Separar humanos de maquinas
-                if(opcao == 'h' || opcao == 'H'){
-                    if(jogadores[r] instanceof Humano){
-                        System.out.println("Saldo do jogador (H): " + jogadores[r].getNome() + " -> " +jogadores[r].getSaldo() +"$");
-                    }
-                    else{
-                        System.out.println("Nao ha jogadores humanos!\n");
-                    }
-                }
-                else if(opcao == 'm' || opcao == 'M'){
-                    if(jogadores[r] instanceof Maquina){
-                        System.out.println("Saldo do jogador (M): " + jogadores[r].getNome() + " -> " +jogadores[r].getSaldo() +"$");
-                    }
-                }
-                else{
-                    System.out.println("Saldo do jogador: " + jogadores[r].getNome() + " -> " +jogadores[r].getSaldo() +"$");
-                }
-            }*/
+            }while(opcaoTipo != 'h' && opcaoTipo != 'H' && opcaoTipo != 'm' && opcaoTipo != 'M' && opcaoTipo != 't' && opcaoTipo != 'T'); //Do while para que a pessoa selecione apenas opcoes corretas H ou M (tanto maiusculo quanto minusculo)
         }
     }
 
     // Funcao para imprimir extratos dos resultados (valores das jogadas [jogo
     // general], valor apostado, ganho ou perda) dos jogos, na(s) aposta(s) feitas
     // pelos jogadores
-    public void imprimirResultados() {
-        System.out.println("\nExtrato dos resultados: ");
-        for (i = 0; i < quantJog; i++) {
-            System.out.println(jogadores[i].getNome() + " -> " + jogadores[i].getSaldo() + "$\n");
+    public void imprimirExtratos(){
+        char opcaoTipo, opcaoJogo;
+        int contChecagem = 0, contChecagem2 = 0;
+
+        if(quantJog == 0)
+            System.out.println("Nao ha jogadores para mostrar os extratos!\n");
+        else{
+            System.out.println("Extrato de qual tipo de jogador voce deseja imprimir? [H -> Humano - M -> Maquina - T -> Todos]:");
+            
+            //Do while para que a pessoa selecione apenas opcoes corretas para tipo de jogador H, M ou T (tanto maiusculo quanto minusculo)
+            do {  
+                opcaoTipo = teclado.next().charAt(0);
+                teclado.nextLine();
+                if(opcaoTipo != 'h' && opcaoTipo != 'H' && opcaoTipo != 'm' && opcaoTipo != 'M' && opcaoTipo != 't' && opcaoTipo != 'T')
+                    System.out.println("Tipo de jogador incorreto, digite a opcao novamente (H,M,T) ou (h,m,t)");
+            } while (opcaoTipo != 'h' && opcaoTipo != 'H' && opcaoTipo != 'm' 
+            && opcaoTipo != 'M' && opcaoTipo != 't' && opcaoTipo != 'T');
+
+            //Do while para que a pessoa selecione apenas opcoes corretas para tipo de jogo G, A ou T (tanto maiusculo quanto minusculo)
+            System.out.println("Qual jogo voce deseja imprimir os extratos? [G-> Jogo General - A-> Jogo de azar - T-> Todos]:");
+            do {
+                opcaoJogo = teclado.next().charAt(0);
+                teclado.nextLine();
+                if(opcaoJogo != 'g' && opcaoJogo != 'G' && opcaoJogo != 'a' && opcaoJogo != 'A' && opcaoJogo != 't' && opcaoJogo != 'T')
+                    System.out.println("Tipo de jogo incorreto, digite a opcao novamente (G,A,T) ou (g,a,t)\n");
+                else{
+                    for(int r = 0; r < 10; r++){                        //For para percorrer as 10 rodadas
+                        System.out.println("Rodada " + (r+1) + ": "); //mostra todos que jogaram tal tipo de jogo na rodada r
+                        for(i = 0; i < quantJog; i++){              //For para percorrer todos os jogadores
+                            if(opcaoTipo == 'h' || opcaoTipo == 'H'){
+                                if(jogadores[i] instanceof Humano){
+                                    contChecagem++;                 //contador para saber se ha jogadores humanos
+                                    System.out.println("Extrato do jogador" + jogadores[i].getNome()+ " (H): " );
+
+                                    if(opcaoJogo == 'g' || opcaoJogo == 'G'){
+                                        if(jogadores[i].verificaQualJogo(r) == true){ //Se for General é retornado true e executa o if
+                                            contChecagem2++;                  
+                                            System.out.println("-- Cartela de Resultados --\n");
+                                            System.out.printf("%s", "\t");
+                                               
+                                            // Mostrar nomes dos jogadores
+                                            for(int j=0; j<quantJog; j++)
+                                                System.out.printf("%10s", jogadores[j].getNome() + "(H)\t");
+                                            System.out.println();
+                                            jogadores[i].imprimirExtratoGeneral(r, quantJog);
+                                        }
+                                        else{
+                                            if(contChecagem2 == 0 && i == quantJog - 1 ) //contador para saber se ha jogadores que jogaram General na rodada
+                                                System.out.println("Nao ha jogadores humanos que jogaram General nessa rodada!\n");
+                                            else if(contChecagem2 == 0 && r == 9) //contador para verificar que nao ha jogadores que jogaram General em nenhuma jogada
+                                                System.out.println("Nao ha jogadores humanos que jogaram General em nenhum momento!\n");
+                                        }
+                                    }
+                                    else if(opcaoJogo == 'a' || opcaoJogo == 'A'){
+
+                                        if(jogadores[i].verificaQualJogo(r) == false){ //Se for Azar é retornado false e executa o if
+                                            contChecagem2++;
+                                            System.out.println("-- Cartela de Resultados --\n");
+                                            System.out.printf("%s", "\t");
+
+                                            // Mostrar nomes dos jogadores
+                                            for(int j=0; j<quantJog; j++)
+                                                System.out.printf("%10s", jogadores[j].getNome() + "(H)\t");
+                                            System.out.println();
+                                            //jogadores[i].imprimirExtratoAzar(quantJog);
+                                        }
+                                        else{
+                                            if(contChecagem2 == 0 && i == quantJog - 1) //contador para saber se ha jogadores que jogaram Azar na rodada
+                                                System.out.println("Nao ha jogadores humanos que jogaram Azar nessa rodada!\n");
+                                            else if(contChecagem2 == 0 && r == 9) //contador para verificar que nao ha jogadores que jogaram Azar em nenhuma jogada
+                                                System.out.println("Nao ha jogadores humanos que jogaram Azar em nenhum momento!\n");
+                                        }
+                                    }
+                                    else{
+                                        if(jogadores[i].verificaQualJogo(r) == true){ //Se for General é retornado true e executa o if - false para Azar
+                                            jogadores[i].imprimirExtratoGeneral(r, quantJog);
+                                        }
+                                        else
+                                            jogadores[i].imprimirExtratoAzar(quantJog);
+                                    }
+                                }
+                                else{
+                                    if(contChecagem == 0 && i == quantJog - 1)
+                                        System.out.println("Nao ha jogadores humanos para imprimir extratos!\n");
+                                }
+                            }
+                            else if(opcaoTipo == 'm' || opcaoTipo == 'M'){
+                                if(jogadores[i] instanceof Maquina){
+                                    contChecagem++;                 //contador para saber se ha jogadores maquinas
+                                    System.out.println("Extrato do jogador" + jogadores[i].getNome() + " (M): " );
+
+                                    if(opcaoJogo == 'g' || opcaoJogo == 'G'){
+                                        System.out.println("-- Cartela de Resultados --\n");
+                                        System.out.printf("%s", "\t");
+
+                                        // Mostrar nomes dos jogadores
+                                        for(int j=0; j<quantJog; j++)
+                                            System.out.printf("%10s", jogadores[j].getNome() + "(M)\t");
+
+                                        System.out.println();
+                                        jogadores[i].imprimirExtratoGeneral(r, quantJog);
+                                    
+                                    } //Nao ha necessidade de verificar se teve algum jogador Maquina  que jogou General, pois devido a estrategia
+                                    //implementada todas as maquinas jogam General e Azar 
+                                    
+                                    else if(opcaoJogo == 'a' || opcaoJogo == 'A'){
+                                        System.out.println("-- Cartela de Resultados --\n");
+                                        System.out.printf("%s", "\t");
+
+                                        // Mostrar nomes dos jogadores
+                                        for(int j=0; j<quantJog; j++)
+                                            System.out.printf("%10s", jogadores[j].getNome() + "(M)\t");
+                                        
+                                        System.out.println();
+                                        jogadores[i].imprimirExtratoAzar(quantJog);
+                                    }
+
+                                    else{
+                                        if(jogadores[i].verificaQualJogo(r) == true){ //Se for General é retornado true e executa o if - false para Azar
+                                            jogadores[i].imprimirExtratoGeneral(r, quantJog);
+                                        }
+                                        else
+                                            jogadores[i].imprimirExtratoAzar(quantJog);
+                                    }
+                                }
+                                else{
+                                    if(contChecagem == 0 && i == quantJog - 1)
+                                        System.out.println("Nao ha jogadores maquinas para imprimir extratos!\n");
+                                }  
+                            }
+                            else{
+                                System.out.print("Extrato do jogador: " + jogadores[i].getNome());
+                                if(jogadores[i] instanceof Humano)
+                                    System.out.print(" (H):\n");
+                                else
+                                    System.out.print(" (M):\n");
+
+                                if(opcaoJogo == 'g' || opcaoJogo == 'G'){
+                                    
+                                    if(jogadores[i].verificaQualJogo(r) == true){ //Se for General é retornado true e executa o if
+                                        contChecagem2++;
+                                        System.out.println("-- Cartela de Resultados --\n");
+                                        System.out.printf("%s", "\t");
+
+                                        // Mostrar nomes dos jogadores
+                                        for(int j=0; j<quantJog; j++)
+                                            System.out.printf("%10s", jogadores[j].getNome() + "\t");
+                                        
+                                        System.out.println();
+                                        jogadores[i].imprimirExtratoGeneral(r, quantJog);
+                                    }
+                                    else{
+                                        if(contChecagem2 == 0 && i == quantJog - 1) //contador para saber se ha jogadores que jogaram General na rodada
+                                            System.out.println("Nao ha jogadores que jogaram General nessa rodada!\n");
+                                        else if(contChecagem2 == 0 && r == 9) //contador para verificar que nao ha jogadores que jogaram General em nenhuma jogada
+                                            System.out.println("Nao ha jogadores que jogaram General em nenhum momento!\n");
+                                    }
+                                }
+                                else if(opcaoJogo == 'a' || opcaoJogo == 'A'){
+                                    
+                                    if(jogadores[i].verificaQualJogo(r) == false){ //Se for Azar é retornado false e executa o if
+                                        contChecagem2++;
+                                        System.out.println("-- Cartela de Resultados --\n");
+                                        System.out.printf("%s", "\t");
+
+                                        // Mostrar nomes dos jogadores
+                                        for(int j=0; j<quantJog; j++)
+                                            System.out.printf("%10s", jogadores[j].getNome() + "\t");
+                                        
+                                        System.out.println();
+                                        jogadores[i].imprimirExtratoAzar(quantJog);
+                                    }
+                                    else{
+                                        if(contChecagem2 == 0 && i == quantJog - 1) //contador para saber se ha jogadores que jogaram Azar na rodada
+                                            System.out.println("Nao ha jogadores que jogaram Azar nessa rodada!\n");
+                                        else if(contChecagem2 == 0 && r == 9) //contador para verificar que nao ha jogadores que jogaram Azar em nenhuma jogada
+                                            System.out.println("Nao ha jogadores que jogaram Azar em nenhum momento!\n");
+                                    }
+                                }
+                                else{
+                                    if(jogadores[i].verificaQualJogo(r) == true){ //Se for General é retornado true e executa o if - false para Azar
+                                        jogadores[i].imprimirExtratoGeneral(r, quantJog);
+                                    }
+                                    else
+                                        jogadores[i].imprimirExtratoAzar(quantJog);
+                                }
+                            }
+                        }
+                    } 
+                }
+            } while (opcaoJogo != 'g' && opcaoJogo != 'G' && opcaoJogo != 'a' 
+            && opcaoJogo != 'A' && opcaoJogo != 't' && opcaoJogo != 'T');                
         }
     }
 

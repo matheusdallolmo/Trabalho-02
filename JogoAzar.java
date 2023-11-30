@@ -1,15 +1,32 @@
-import java.io.Serializable;
 
-public class JogoAzar extends JogoDados implements Serializable{
+public class JogoAzar extends JogoDados{
     private float valorAposta, valorFinal;
     private int soma;
 
-    // Construtor para a classe
+    // Construtor para a classe sem argumentos
+    public JogoAzar(){
+        super(2, "Jogo de Azar", 0);
+        this.soma = 0;
+        this.valorAposta = 0;
+        this.valorFinal = 0;
+    }
+
+    // Construtor para a classe com argumentos (sobrecarga)
     public JogoAzar(float valorAposta){
         super(2, "Jogo de Azar", valorAposta);
         this.soma = 0;
         this.valorAposta = valorAposta;
         this.valorFinal = 0;
+    }
+
+    //Funcao para retornar o valor da aposta
+    public float getValorAposta(){
+        return valorAposta;
+    }
+
+    //Funcao para retornar o resultado do jogo
+    public float getValorFinal(){
+        return valorFinal;
     }
 
     // Executar o Jogo de Azar

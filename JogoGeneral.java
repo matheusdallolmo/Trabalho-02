@@ -63,14 +63,19 @@ public class JogoGeneral extends JogoDados{
                     if(escolha<1 || escolha>13)
                         System.out.println("Escolha incorreta, selecione uma escolha valida: [1-13]");
                 }while(escolha < 1 || escolha > 13); // Do while para que a pessoa selecione apenas jogadas validas, entre 1 e 13
+                
                 if(jogadas[escolha - 1] == -1) 
                     executarRegrasJogo(escolha);
                 else{
-                    while(jogadas[escolha - 1] != -1){
-                        System.out.println("Jogada invalida, jogue novamente!");
-    
-                        escolha = teclado.nextInt();
-                    }
+                    do{
+                        System.out.println("Jogada ja realizada, escolha outra jogada: [1-13]");
+                        do {  
+                            System.out.print("\nOpcao: ");        
+                            escolha = teclado.nextInt();
+                            if(escolha<1 || escolha>13)
+                                System.out.println("Escolha incorreta, selecione uma escolha valida: [1-13]");
+                        } while (escolha < 1 || escolha > 13);
+                    }while(jogadas[escolha - 1] != -1);
                     executarRegrasJogo(escolha);
                 }
                 // Mensagem para informar que a rodada foi zerada
@@ -177,7 +182,7 @@ public class JogoGeneral extends JogoDados{
     // Funcao que valida se a jogada eh possivel e calcula os pontos marcados
     // Retorna 0 se a jogada nao for possivel ou os pontos marcados se ela for possivel
     public void executarRegrasJogo(int jogada){
-        int i, quant = 0, valida;
+        int i, quant = 0, valida, quant2 = 0;
         // Verifica e calcula os pontos para a Jogada de 1's
         if(jogada == 1){
             for(i = 0; i < 5; i++)
@@ -222,7 +227,7 @@ public class JogoGeneral extends JogoDados{
         }
         // Verifica e calcula os pontos para a Trinca(T)
         else if(jogada == 7){
-            for(i = 0; i < 5; i++){
+            for(i = 1; i <= 6; i++){
                 quant = 0;
                 for(int j = 0; j < 5; j++){
                     if(valorDado(j) == i){
@@ -230,18 +235,21 @@ public class JogoGeneral extends JogoDados{
                     }
                 }
                 if(quant >= 3){
-                    quant = 0;
+                    quant2 = 0;
                     for(int k = 0; k < 5; k++)
                         quant += valorDado(k);
-                    jogadas[jogada - 1] = quant;
+                    jogadas[jogada - 1] = quant2;
+
+                    break;
                 }
             }
-            jogadas[jogada - 1] = 0;
+            if(quant < 3)
+                jogadas[jogada - 1] = 0;
         }
 
         // Verifica e calcula os pontos para a Quadra(Q)
         else if(jogada == 8){
-            for(i = 0; i < 5; i++){
+            for(i = 1; i <= 6; i++){
                 quant = 0;
                 for(int j = 0; j < 5; j++){
                     if(valorDado(j) == i){
@@ -249,13 +257,14 @@ public class JogoGeneral extends JogoDados{
                     }
                 }
                 if(quant >= 4){
-                    quant = 0;
+                    quant2 = 0;
                     for(int k = 0; k < 5; k++)
                         quant += valorDado(k);
-                    jogadas[jogada - 1] = quant;
+                    jogadas[jogada - 1] = quant2;
                 }
             }
-            jogadas[jogada - 1] = 0;
+            if(quant < 4)
+                jogadas[jogada - 1] = 0;
         }
 
         // Verifica e calcula os pontos para Full-Hand(F)/Full-House(F)

@@ -451,7 +451,168 @@ public class Campeonato {
 
     // Funcao para exibir quantas vezes cada face de cada dado ja fora sorteada
     public void imprimirEstatisticas() {
+        int opcao1, opcao2, i, total;
+        int[] ocorrenciaDados = new int[6];
 
+        // Iniciar o vetor para contar os dados
+        for(i = 0; i < 5; i++){
+            ocorrenciaDados[i] = 0;
+        }
+
+        // Realizar o laco para pedir, validar e mostrar a opcao que o usuario escolher
+        do{
+            // Solicitar qual estatistica mostrar
+            System.out.println("Escolha pelo numero qual tipo de estatisticas voce deseja ver:");
+            System.out.println("1 -> Por tipo de Jogador\n"+
+                               "2 -> Por tipo de Jogo\n"+
+                               "3 -> Total por Jogos\n"+
+                               "4 -> Total do Campeonato\n");
+            opcao1 = teclado.nextInt();
+            teclado.nextLine();
+
+            // Validar se a opcao eh valida
+            if(opcao1 > 0 && opcao1 < 5){
+                // Realizar a segunda solicitacao de acordo com a primeira
+                switch(opcao1){
+                    // Por tipo de Jogador
+                    case 1 :
+                        do{
+                            System.out.println("Para qual tipo de jogador voce quer mostrar: ");
+                            System.out.println("1 -> Para todos os jogadores Humanos\n"+
+                                               "2 -> Para todas os jogadores Maquinas\n");
+                            opcao2 = teclado.nextInt();
+                            teclado.nextLine();
+                            if(opcao2 != 1 && opcao2 != 2){
+                                System.out.println("Opcao invalida, por favor escolha novamente!");
+                            }
+                        }while(opcao2 < 1 || opcao2 > 2);
+
+                        switch(opcao2){
+                            // Humanos
+                            case 1 :
+                                for(int j = 0; j < quantJog; j++){
+                                    if(jogadores[j] instanceof Humano){
+                                        for (int k = 0; k < 6; k++){
+                                            ocorrenciaDados[k] += jogadores[j].estatisticasJogador(k);
+                                        }
+                                    }
+                                }
+                                total = 0;
+                                
+                                for(i = 0; i < 6; i++){
+                                    total += ocorrenciaDados[i];
+                                }
+                                System.out.println(
+                                        "Total de vezes que cada face dos dados foi sorteada para jogadores humanos:\n");
+                                for(i = 0; i < 6; i++){
+                                    System.out.println("Face " + (i + 1) + ": " + ocorrenciaDados[i]+" vezes");
+                                }
+                                System.out.println("Total de faces sorteadas: " + total);
+                                break;
+                            // Maquinas
+                            case 2 :
+                                for(int j = 0; j < quantJog; j++){
+                                    if(jogadores[j] instanceof Maquina){
+                                        for (int k = 0; k < 6; k++){
+                                            ocorrenciaDados[k] += jogadores[j].estatisticasJogador(k);
+                                        }
+                                    }
+                                }
+                                total = 0;
+                                
+                                for(i = 0; i < 6; i++){
+                                    total += ocorrenciaDados[i];
+                                }
+                                System.out.println("Total de vezes que cada face dos dados foi sorteada para jogadores maquinas:\n");
+                                for(i = 0; i < 6; i++){
+                                    System.out.println("Face " + (i + 1) + ": " + ocorrenciaDados[i]+" vezes");
+                                }
+                                System.out.println("Total de faces sorteadas: " + total);
+                                break;
+                        }
+
+                    // Por tipo de Jogo
+                    case 2 :
+                        do{
+                            System.out.println("Para qual tipo de jogo voce quer mostrar: ");
+                            System.out.println("1 -> Para o Jogo de Azar\n"+
+                                               "2 -> Para o Jogo General\n");
+                            opcao2 = teclado.nextInt();
+                            teclado.nextLine();
+                            if(opcao2 != 1 && opcao2 != 2){
+                                System.out.println("Opcao invalida, por favor escolha novamente!");
+                            }
+                        }while(opcao2 < 1 || opcao2 > 2);
+
+                        switch(opcao2){
+                            // para o Jogo de Azar
+                            case 1 :
+                                for(int j = 0; j < quantJog; j++){
+                                    for (int k = 0; k < 6; k++) {
+                                        ocorrenciaDados[k] += jogadores[j].estatisticasJogoDeAzar(k);
+                                    }
+                                }
+                                total= 0;
+                                for(i = 0; i < 6; i++){
+                                    total += ocorrenciaDados[i];
+                                }
+                                System.out.println("Total de vezes que cada face dos dados foi sorteada para Jogo de Azar:\n");
+                                for(i = 0; i < 6; i++){
+                                    System.out.println("Face " + (i + 1) + ": " + ocorrenciaDados[i]);
+                                }
+                                System.out.println("Total de faces sorteadas: " + total);
+                                break;
+                            // para o Jogo General
+                            case 2 :
+                                for(int j = 0; j < quantJog; j++){
+                                    for (int k = 0; k < 6; k++) {
+                                        ocorrenciaDados[k] += jogadores[j].estatisticasJogoGeneral(k);
+                                    }
+                                }
+                                total= 0;
+                                for(i = 0; i < 6; i++){
+                                    total += ocorrenciaDados[i];
+                                }
+                                System.out.println("Total de vezes que cada face dos dados foi sorteada para Jogo de Azar:\n");
+                                for(i = 0; i < 6; i++){
+                                    System.out.println("Face " + (i + 1) + ": " + ocorrenciaDados[i]);
+                                }
+                                System.out.println("Total de faces sorteadas: " + total);
+                                break;
+                            }
+
+                    // Total por Jogo
+                    case 3 :
+                        for (int j = 0; j < quantJog; j++) {
+                            jogadores[j].estatisticasCampeonato();
+                        }
+                        break;
+
+                    // Total do Campeonato
+                    case 4 :
+                    for(i = 0; i < quantJog; i++){
+                        for(int j = 0; j < 6; j++){
+                            ocorrenciaDados[j] += jogadores[i].estatisticasJogador(j);
+                        }
+                    }
+
+                    total = 0;
+                    for(i = 0; i < 6; i++){
+                        total += ocorrenciaDados[i];
+                    }
+                    System.out.println("Total de vezes que cada face dos dados foi sorteada em todo o Campeonato:\n");
+                    for(i = 0; i < 6; i++){
+                        System.out.println("Face "+(i + 1) +": "+ocorrenciaDados[i]);
+                    }
+                    System.out.println("Total de rolagens: "+total);
+                    break;
+                }
+            }
+            // Informar que a opcao eh invalida e pedir novamente para o usuario escolher
+            else{
+                System.out.println("Opcao invalida, por favor escolha novamente!");
+            }
+        }while(opcao1 < 1 || opcao1 > 4);
     }
 
     // Funcao para gravar em arquivo

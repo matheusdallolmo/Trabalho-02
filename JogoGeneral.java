@@ -237,7 +237,7 @@ public class JogoGeneral extends JogoDados{
                 if(quant >= 3){
                     quant2 = 0;
                     for(int k = 0; k < 5; k++)
-                        quant2 += valorDado(k);
+                        quant += valorDado(k);
                     jogadas[jogada - 1] = quant2;
 
                     break;
@@ -259,7 +259,7 @@ public class JogoGeneral extends JogoDados{
                 if(quant >= 4){
                     quant2 = 0;
                     for(int k = 0; k < 5; k++)
-                        quant2 += valorDado(k);
+                        quant += valorDado(k);
                     jogadas[jogada - 1] = quant2;
                 }
             }

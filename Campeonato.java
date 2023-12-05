@@ -102,6 +102,9 @@ public class Campeonato {
         if (quantJog == 0)
             System.out.println("Nao ha jogadores para iniciar o jogo!\n");
         else {
+            for(i=0; i<quantJog; i++){
+                jogadores[i].setSaldo(100);
+            }
             // For para as 10 rodadas
             for (i = 0; i < 10; i++) {
                 aux = 0;

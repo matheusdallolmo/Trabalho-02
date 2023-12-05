@@ -1,9 +1,9 @@
 
 public class Humano extends Jogador implements JogarComoHumano {
-    private String cpf;
-    private String agencia;
-    private String conta;
-    private int numeroBanco;
+    private  String cpf;
+    private final String agencia;
+    private final String conta;
+    private final int numeroBanco;
 
     public Humano() {
         super();

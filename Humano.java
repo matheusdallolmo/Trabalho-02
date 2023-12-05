@@ -1,11 +1,11 @@
 
-public class Humano extends Jogador implements JogarComoHumano{
+public class Humano extends Jogador implements JogarComoHumano {
     private String cpf;
     private String agencia;
     private String conta;
     private int numeroBanco;
 
-    public Humano(){
+    public Humano() {
         super();
         cpf = " ";
         agencia = " ";
@@ -13,15 +13,15 @@ public class Humano extends Jogador implements JogarComoHumano{
         numeroBanco = 0;
     }
 
-    public Humano(String nome, String cpf){
+    public Humano(String nome, String cpf) {
         super(nome);
         this.cpf = cpf;
-        this.agencia =  "Banco do Brasil";
+        this.agencia = "Banco do Brasil";
         this.conta = "514563598-7";
         this.numeroBanco = 748;
     }
 
-    public void iniciarJogoAzar(int rodada, float valorAposta){
+    public void iniciarJogoAzar(int rodada, float valorAposta) {
 
         // Remover do saldo do jogador o valor apostado
         super.setSaldo(super.getSaldo() - valorAposta);
@@ -30,8 +30,8 @@ public class Humano extends Jogador implements JogarComoHumano{
         super.executarJogoAzar(rodada, valorAposta);
     }
 
-    public void iniciarJogoGeneral(int rodada, float valorAposta){
-        
+    public void iniciarJogoGeneral(int rodada, float valorAposta) {
+
         // Remover do saldo do jogador o valor apostado
         super.setSaldo(super.getSaldo() - valorAposta);
 
@@ -39,58 +39,75 @@ public class Humano extends Jogador implements JogarComoHumano{
         super.executarJogoGeneral(rodada, valorAposta, 1);
     }
 
-    public int getJogada(int rodada, int jogada){
+    public int getJogada(int rodada, int jogada) {
         return super.getJogada(rodada, jogada);
     }
 
     // Funcao para imprimir o extrato do jogo General
-    public void imprimirExtratoGeneral(int rodada, int quantJog){
+    public void imprimirExtratoGeneral(int rodada) {
         // Mostrar resultados
-        for(int i=1; i<=13; i++){
-            if(i<=6)
-                System.out.printf("%s",  i + "\t");
-            else if(i == 7)
-                System.out.printf("%s",  i + "(T)\t");
-            else if(i == 8)
-                System.out.printf("%s",  i + "(Q)\t");
-            else if(i == 9)
-                System.out.printf("%s",  i + "(F)\t");
-            else if(i == 10)
-                System.out.printf("%s",  i + "(S+)\t");
-            else if(i == 11)
-                System.out.printf("%s",  i + "(S-)\t");
-            else if(i == 12)
-                System.out.printf("%s",  i + "(G)\t");
-            else if(i == 13)
-                System.out.printf("%s",  i + "(X)\t");
+        for (int i = 1; i <= 13; i++) {
+            if (i==1)
+                System.out.println();
+            if (i <= 6)
+                System.out.printf("%s", i + "\t");
+            else if (i == 7)
+                System.out.printf("%s", i + "(T)\t");
+            else if (i == 8)
+                System.out.printf("%s", i + "(Q)\t");
+            else if (i == 9)
+                System.out.printf("%s", i + "(F)\t");
+            else if (i == 10)
+                System.out.printf("%s", i + "(S+)\t");
+            else if (i == 11)
+                System.out.printf("%s", i + "(S-)\t");
+            else if (i == 12)
+                System.out.printf("%s", i + "(G)\t");
+            else if (i == 13)
+                System.out.printf("%s", i + "(X)\t");
 
-            for(int j=0; j<quantJog; j++){
-                System.out.printf("%10s",  getJogada(rodada, i) + "\t");
+            for (int j = 0; j < 1; j++) {
+                System.out.printf("%10s", getJogada(rodada, i) + "\t");
             }
             System.out.println();
         }
-        for(int i=0; i<quantJog; i++)
+
+        for (int i = 0; i < 1; i++)
             System.out.print("-----------------");
 
-        System.out.print("\nTotal\t" );
-        for(int i=0; i<quantJog; i++){
+        System.out.print("\nTotal\t");
+        for (int i = 0; i < 1; i++) {
             System.out.printf("%10s", getTotal(rodada) + "\t");
         }
+        System.out.println();
+        System.out.print("Aposta: \t");
+        for (int i = 0; i < 1; i++)
+            System.out.printf("%.2f\t", getValorAposta(rodada));
 
-        System.out.println("\nApostas\t");
-        for(int i=0; i<quantJog; i++)
-            System.out.printf("%10s" + getValorAposta(rodada) + "\t");
-
-        System.out.println("\nResultados\t");
-        for(int i=0; i<quantJog; i++){
-            if(getValorFinal(rodada) > 0)
-                System.out.printf("%10s", "Ganhou " + getValorFinal(rodada) + "\t");
+        System.out.print("\nResultado: ");
+        for (int i = 0; i < 1; i++) {
+            if (getValorFinal(rodada) > 0)
+                System.out.printf("Ganhou\t");
             else
-                System.out.printf("%10s", "Perdeu " + getValorFinal(rodada) + "\t");
+                System.out.printf("Perdeu\t");
         }
+        System.out.println("\n");
     }
 
-    public void imprimirExtratoAzar(int rodada, int quantJog){
-       
+    // metodo para mostrar o extrato do jogo azar
+    public void imprimirExtratoAzar(int rodada) {
+        System.out.println("Jogo de Azar");
+        System.out.print("Aposta: \t");
+        for (int i = 0; i < 1; i++)
+            System.out.printf("%.2f\t", getValorAposta(rodada));
+
+        System.out.print("\nResultado: ");
+        for (int i = 0; i < 1; i++) {
+            if (getValorFinal(rodada) > 0)
+                System.out.printf("Ganhou\t");
+            else
+                System.out.printf("Perdeu\t");
+        }
+        System.out.println("\n");
     }
 }

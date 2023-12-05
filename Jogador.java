@@ -148,7 +148,7 @@ public abstract class Jogador implements Serializable{
         }
     }
 
-    public abstract void imprimirExtratoAzar(int quantJog);
-    public abstract void imprimirExtratoGeneral(int rodada, int quantJog);
+    public abstract void imprimirExtratoAzar(int rodada);
+    public abstract void imprimirExtratoGeneral(int rodada);
     
 }

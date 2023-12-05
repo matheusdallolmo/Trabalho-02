@@ -46,6 +46,20 @@ public abstract class Jogador implements Serializable{
         this.saldo = saldo;
     }
 
+    // Retornar 1 se o jogo na rodada n for jogo de azar
+    public int validaAzar(int n){
+        if(jogo[n] instanceof JogoAzar)
+            return 1;
+        return 0;
+    }
+
+    // Retornar 1 se o jogo na rodada n for jogo general
+    public int validaGeneral(int n){
+        if(jogo[n] instanceof JogoGeneral)
+            return 1;
+        return 0;
+    }
+
     //Getter de valor de aposta
     public float getValorAposta(int rodada){
         if (jogo[rodada] instanceof JogoGeneral)

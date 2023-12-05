@@ -489,7 +489,7 @@ public class Campeonato {
 
     // Funcao para exibir quantas vezes cada face de cada dado ja fora sorteada
     public void imprimirEstatisticas() {
-        int opcao1, opcao2, i, total;
+        int opcao1, opcao2, i, total, quant;
         int[] ocorrenciaDados = new int[6];
         if (quantJog == 0)
             System.out.println("Nao ha jogadores para mostrar as estatisticas!\n");
@@ -530,49 +530,70 @@ public class Campeonato {
                             switch (opcao2) {
                                 // Humanos
                                 case 1:
-                                    for (int j = 0; j < quantJog; j++) {
-                                        if (jogadores[j] instanceof Humano) {
-                                            for (int k = 0; k < 6; k++) {
-                                                ocorrenciaDados[k] += jogadores[j].estatisticasJogador(k);
+                                    quant = 0;
+                                    for(i = 0; i < quantJog; i++)
+                                        if(jogadores[i] instanceof Humano)
+                                            quant++;
+                                    if(quant > 0){
+                                        for (int j = 0; j < quantJog; j++) {
+                                            if (jogadores[j] instanceof Humano) {
+                                                for (int k = 0; k < 6; k++) {
+                                                    ocorrenciaDados[k] += jogadores[j].estatisticasJogador(k);
+                                                }
                                             }
                                         }
-                                    }
-                                    total = 0;
+                                        total = 0;
 
-                                    for (i = 0; i < 6; i++) {
-                                        total += ocorrenciaDados[i];
+                                        for (i = 0; i < 6; i++) {
+                                            total += ocorrenciaDados[i];
+                                        }
+                                        System.out.println(
+                                                "Total de vezes que cada face dos dados foi sorteada para jogadores humanos:\n");
+                                        for (i = 0; i < 6; i++) {
+                                            System.out.println("Face " + (i + 1) + ": " + ocorrenciaDados[i] + " vezes");
+                                        }
+                                        System.out.println("Total de faces sorteadas: " + total);
+                                        break;
                                     }
-                                    System.out.println(
-                                            "Total de vezes que cada face dos dados foi sorteada para jogadores humanos:\n");
-                                    for (i = 0; i < 6; i++) {
-                                        System.out.println("Face " + (i + 1) + ": " + ocorrenciaDados[i] + " vezes");
+                                    else{
+                                        System.out.println("O jogo nao conta com nenhum jogador humano!!");
                                     }
-                                    System.out.println("Total de faces sorteadas: " + total);
                                     break;
                                 // Maquinas
                                 case 2:
-                                    for (int j = 0; j < quantJog; j++) {
-                                        if (jogadores[j] instanceof Maquina) {
-                                            for (int k = 0; k < 6; k++) {
-                                                ocorrenciaDados[k] += jogadores[j].estatisticasJogador(k);
+                                    quant = 0;
+                                    for(i = 0; i < quantJog; i++)
+                                        if(jogadores[i] instanceof Maquina)
+                                            quant++;
+                                    if(quant > 0){
+                                        for (int j = 0; j < quantJog; j++) {
+                                            if (jogadores[j] instanceof Maquina) {
+                                                for (int k = 0; k < 6; k++) {
+                                                    ocorrenciaDados[k] += jogadores[j].estatisticasJogador(k);
+                                                }
                                             }
                                         }
-                                    }
-                                    total = 0;
+                                        total = 0;
 
-                                    for (i = 0; i < 6; i++) {
-                                        total += ocorrenciaDados[i];
+                                        for (i = 0; i < 6; i++) {
+                                            total += ocorrenciaDados[i];
+                                        }
+                                        System.out.println(
+                                                "Total de vezes que cada face dos dados foi sorteada para jogadores maquinas:\n");
+                                        for (i = 0; i < 6; i++) {
+                                            System.out.println("Face " + (i + 1) + ": " + ocorrenciaDados[i] + " vezes");
+                                        }
+                                        System.out.println("Total de faces sorteadas: " + total);
+                                        break;
                                     }
-                                    System.out.println(
-                                            "Total de vezes que cada face dos dados foi sorteada para jogadores maquinas:\n");
-                                    for (i = 0; i < 6; i++) {
-                                        System.out.println("Face " + (i + 1) + ": " + ocorrenciaDados[i] + " vezes");
+                                    else{
+                                        System.out.println("O jogo nao conta com nenhum jogador maquina!!");
                                     }
-                                    System.out.println("Total de faces sorteadas: " + total);
                                     break;
                             }
+                            break;
 
-                            // Por tipo de Jogo
+                        // Por tipo de Jogo
                         case 2:
                             do {
                                 System.out.println("Para qual tipo de jogo voce quer mostrar: ");
@@ -588,43 +609,66 @@ public class Campeonato {
                             switch (opcao2) {
                                 // para o Jogo de Azar
                                 case 1:
-                                    for (int j = 0; j < quantJog; j++) {
-                                        for (int k = 0; k < 6; k++) {
-                                            ocorrenciaDados[k] += jogadores[j].estatisticasJogoDeAzar(k);
+                                    quant = 0;
+                                    for(i = 0; i < quantJog; i++){
+                                        for(int j = 0; j < 10; j++){
+                                            quant += jogadores[i].validaAzar(j);
                                         }
                                     }
-                                    total = 0;
-                                    for (i = 0; i < 6; i++) {
-                                        total += ocorrenciaDados[i];
+                                    if(quant > 0){
+                                            for (int j = 0; j < quantJog; j++) {
+                                            for (int k = 0; k < 6; k++) {
+                                                ocorrenciaDados[k] += jogadores[j].estatisticasJogoDeAzar(k);
+                                            }
+                                        }
+                                        total = 0;
+                                        for (i = 0; i < 6; i++) {
+                                            total += ocorrenciaDados[i];
+                                        }
+                                        System.out.println(
+                                                "Total de vezes que cada face dos dados foi sorteada para Jogo de Azar:\n");
+                                        for (i = 0; i < 6; i++) {
+                                            System.out.println("Face " + (i + 1) + ": " + ocorrenciaDados[i]);
+                                        }
+                                        System.out.println("Total de faces sorteadas: " + total);
+                                        break;
                                     }
-                                    System.out.println(
-                                            "Total de vezes que cada face dos dados foi sorteada para Jogo de Azar:\n");
-                                    for (i = 0; i < 6; i++) {
-                                        System.out.println("Face " + (i + 1) + ": " + ocorrenciaDados[i]);
+                                    else{
+                                        System.out.println("Nenhuma rodada de Jogo de Azar foi disputada!!");
                                     }
-                                    System.out.println("Total de faces sorteadas: " + total);
-                                    break;
                                 // para o Jogo General
                                 case 2:
-                                    for (int j = 0; j < quantJog; j++) {
-                                        for (int k = 0; k < 6; k++) {
-                                            ocorrenciaDados[k] += jogadores[j].estatisticasJogoGeneral(k);
+                                    quant = 0;
+                                    for(i = 0; i < quantJog; i++){
+                                        for(int j = 0; j < 10; j++){
+                                            quant += jogadores[i].validaGeneral(j);
                                         }
                                     }
-                                    total = 0;
-                                    for (i = 0; i < 6; i++) {
-                                        total += ocorrenciaDados[i];
+                                    if(quant > 0){
+                                        for (int j = 0; j < quantJog; j++) {
+                                            for (int k = 0; k < 6; k++) {
+                                                ocorrenciaDados[k] += jogadores[j].estatisticasJogoGeneral(k);
+                                            }
+                                        }
+                                        total = 0;
+                                        for (i = 0; i < 6; i++) {
+                                            total += ocorrenciaDados[i];
+                                        }
+                                        System.out.println(
+                                                "Total de vezes que cada face dos dados foi sorteada para Jogo de Azar:\n");
+                                        for (i = 0; i < 6; i++) {
+                                            System.out.println("Face " + (i + 1) + ": " + ocorrenciaDados[i]);
+                                        }
+                                        System.out.println("Total de faces sorteadas: " + total);
+                                        break;
                                     }
-                                    System.out.println(
-                                            "Total de vezes que cada face dos dados foi sorteada para Jogo de Azar:\n");
-                                    for (i = 0; i < 6; i++) {
-                                        System.out.println("Face " + (i + 1) + ": " + ocorrenciaDados[i]);
+                                    else{
+                                        System.out.println("Nenhuma rodada de Jogo General foi disputada!!");
                                     }
-                                    System.out.println("Total de faces sorteadas: " + total);
-                                    break;
                             }
+                            break;
 
-                            // Total por Jogo
+                        // Total por Jogo
                         case 3:
                             for (int j = 0; j < quantJog; j++) {
                                 jogadores[j].estatisticasCampeonato();
